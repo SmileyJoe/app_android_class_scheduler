@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="profile_icon_toolbar_width">40dp</dimen>
+    <dimen name="profile_icon_toolbar_height">@dimen/profile_icon_toolbar_width</dimen>
+    <dimen name="profile_icon_toolbar_margin_left">16dp</dimen>
+    <dimen name="profile_icon_toolbar_margin_right">@dimen/profile_icon_toolbar_margin_left</dimen>
+    <dimen name="profile_icon_toolbar_padding_bottom">8dp</dimen>
+    <dimen name="profile_icon_toolbar_padding_top">@dimen/profile_icon_toolbar_padding_bottom</dimen>
+</resources>

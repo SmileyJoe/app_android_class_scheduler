@@ -1,7 +1,7 @@
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout</item>
-        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+<!--        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>-->
         <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationStyle</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -16,11 +16,13 @@
 
     <style name="AppTheme.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="elevation">0dp</item>
+        <item name="android:background">?android:colorBackground</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="android:background">?android:colorBackground</item>
-        <item name="titleTextColor">@color/colorPrimary</item>
-    </style>
+<!--    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->
+<!--        <item name="android:background">?android:colorBackground</item>-->
+<!--        <item name="titleTextColor">@color/colorPrimary</item>-->
+<!--        <item name="titleCentered">true</item>-->
+<!--    </style>-->
 
 </resources>
