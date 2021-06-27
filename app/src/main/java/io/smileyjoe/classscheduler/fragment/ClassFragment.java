@@ -15,8 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.object.Schedule;
 
-public class ClassFragment extends Fragment {
+public class ClassFragment extends Fragment implements ValueEventListener{
 
     public ClassFragment() {
         super(R.layout.fragment_class);
@@ -26,22 +27,31 @@ public class ClassFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("schedule");
+        setDataListener();
+    }
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    Log.d("DbThings", "Value is: " + itemSnapshot.child("name").getValue(String.class));
-                }
-            }
+    private void setDataListener(){
+        FirebaseDatabase
+                .getInstance()
+                .getReference(Schedule.DB_NAME)
+                .addValueEventListener(this);
+    }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("DbThings", "Failed to read value.", error.toException());
-            }
-        });
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        ArrayList<Schedule> schedules = new ArrayList<>();
+
+        for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+            schedules.add(new Schedule(itemSnapshot));
+        }
+
+        for(Schedule schedule:schedules){
+            Log.d("DbThings", "Schedule: " + schedule.toString());
+        }
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+        Log.w("DbThings", "Failed to read value.", error.toException());
     }
 }
