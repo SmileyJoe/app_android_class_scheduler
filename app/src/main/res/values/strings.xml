@@ -2,4 +2,14 @@
     <string name="app_name">Class Scheduler</string>
     <string name="menu_about">About</string>
     <string name="menu_classes">Classes</string>
+    <string name="text_schedule_time">%1$s: %2$s - %3$s</string>
+    <string name="title_error">Error</string>
+
+    <string name="title_monday">Monday</string>
+    <string name="title_tuesday">Tuesday</string>
+    <string name="title_wednesday">Wednesday</string>
+    <string name="title_thursday">Thursday</string>
+    <string name="title_friday">Friday</string>
+    <string name="title_saturday">Saturday</string>
+    <string name="title_sunday">Sunday</string>
 </resources>
