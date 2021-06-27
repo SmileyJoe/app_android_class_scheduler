@@ -23,8 +23,14 @@ public class Schedule implements Parcelable {
     private Day mDay;
     private String mTimeStart;
     private String mTimeEnd;
+    private boolean mIsHeader;
 
     private Schedule(){}
+
+    public Schedule(Day day){
+        setDay(day);
+        setHeader(true);
+    }
 
     public Schedule(DataSnapshot itemSnapshot){
         setId(itemSnapshot.child(DB_KEY_ID).getValue(Integer.class));
@@ -34,6 +40,7 @@ public class Schedule implements Parcelable {
         setTimeEnd(itemSnapshot.child(DB_KEY_END).getValue(String.class));
         setDescription(itemSnapshot.child(DB_KEY_DESCRIPTION).getValue(String.class));
         setDetails(itemSnapshot.child(DB_KEY_DETAILS).getValue(String.class));
+        setHeader(false);
     }
 
     public Integer getId() {
@@ -62,6 +69,10 @@ public class Schedule implements Parcelable {
 
     public String getTimeEnd() {
         return mTimeEnd;
+    }
+
+    public boolean isHeader() {
+        return mIsHeader;
     }
 
     public void setId(Integer id) {
@@ -94,6 +105,10 @@ public class Schedule implements Parcelable {
 
     public void setTimeEnd(String timeEnd) {
         mTimeEnd = timeEnd;
+    }
+
+    public void setHeader(boolean header) {
+        mIsHeader = header;
     }
 
     @Override

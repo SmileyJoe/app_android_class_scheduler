@@ -18,10 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.adapter.HeaderItemDecoration;
 import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.object.ScheduleComparator;
 
 public class ClassFragment extends Fragment implements ValueEventListener{
 
@@ -44,6 +47,7 @@ public class ClassFragment extends Fragment implements ValueEventListener{
         RecyclerView recyclerSchedule = view.findViewById(R.id.recycler_schedule);
         recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerSchedule.setAdapter(mAdapter);
+        recyclerSchedule.addItemDecoration(new HeaderItemDecoration(recyclerSchedule, mAdapter));
     }
 
     private void setDataListener(){
@@ -60,6 +64,8 @@ public class ClassFragment extends Fragment implements ValueEventListener{
         for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
             schedules.add(new Schedule(itemSnapshot));
         }
+
+        Collections.sort(schedules, new ScheduleComparator());
 
         mAdapter.setItems(schedules);
     }

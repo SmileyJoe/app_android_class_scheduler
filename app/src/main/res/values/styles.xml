@@ -23,6 +23,17 @@
 
     <style name="Text.Title" parent="TextAppearance.MaterialComponents.Headline6"/>
 
+    <style name="Text.Heading" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ListItem">
+        <item name="android:paddingTop">@dimen/padding_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
+        <item name="android:paddingLeft">@dimen/padding_horizontal_default</item>
+        <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
+    </style>
+
 <!--    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->
 <!--        <item name="android:background">?android:colorBackground</item>-->
 <!--        <item name="titleTextColor">@color/colorPrimary</item>-->
