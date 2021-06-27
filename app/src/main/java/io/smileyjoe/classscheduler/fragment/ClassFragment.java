@@ -1,10 +1,15 @@
 package io.smileyjoe.classscheduler.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,19 +20,30 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
 import io.smileyjoe.classscheduler.object.Schedule;
 
 public class ClassFragment extends Fragment implements ValueEventListener{
+
+    private ScheduleAdapter mAdapter;
 
     public ClassFragment() {
         super(R.layout.fragment_class);
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        setupView(view);
         setDataListener();
+    }
+
+    private void setupView(View view){
+        mAdapter = new ScheduleAdapter(new ArrayList<>());
+        RecyclerView recyclerSchedule = view.findViewById(R.id.recycler_schedule);
+        recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerSchedule.setAdapter(mAdapter);
     }
 
     private void setDataListener(){
@@ -45,9 +61,7 @@ public class ClassFragment extends Fragment implements ValueEventListener{
             schedules.add(new Schedule(itemSnapshot));
         }
 
-        for(Schedule schedule:schedules){
-            Log.d("DbThings", "Schedule: " + schedule.toString());
-        }
+        mAdapter.setItems(schedules);
     }
 
     @Override
