@@ -29,6 +29,6 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder {
     public void onBind(Schedule schedule){
         mTextName.setText(schedule.getName());
         mTextDescription.setText(schedule.getDescription());
-        mTextTime.setText(mContext.getString(R.string.text_schedule_time, schedule.getDay().getTitle(mContext), schedule.getTimeStart(), schedule.getTimeEnd()));
+        mTextTime.setText(mContext.getString(R.string.text_schedule_time, schedule.getTimeStart(), schedule.getTimeEnd()));
     }
 }
