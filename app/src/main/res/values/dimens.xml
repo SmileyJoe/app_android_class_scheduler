@@ -8,4 +8,6 @@
     <dimen name="profile_icon_toolbar_margin_right">@dimen/profile_icon_toolbar_margin_left</dimen>
     <dimen name="profile_icon_toolbar_padding_bottom">8dp</dimen>
     <dimen name="profile_icon_toolbar_padding_top">@dimen/profile_icon_toolbar_padding_bottom</dimen>
+
+    <dimen name="icon_size_schedule_list">50dp</dimen>
 </resources>

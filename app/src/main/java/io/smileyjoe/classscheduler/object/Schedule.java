@@ -15,6 +15,7 @@ public class Schedule implements Parcelable {
     private static final String DB_KEY_END = "end";
     private static final String DB_KEY_DESCRIPTION = "description";
     private static final String DB_KEY_DETAILS = "details";
+    private static final String DB_KEY_ICON = "icon";
 
     private Integer mId;
     private String mName;
@@ -24,6 +25,7 @@ public class Schedule implements Parcelable {
     private String mTimeStart;
     private String mTimeEnd;
     private boolean mIsHeader;
+    private String mIconName;
 
     private Schedule(){}
 
@@ -40,6 +42,7 @@ public class Schedule implements Parcelable {
         setTimeEnd(itemSnapshot.child(DB_KEY_END).getValue(String.class));
         setDescription(itemSnapshot.child(DB_KEY_DESCRIPTION).getValue(String.class));
         setDetails(itemSnapshot.child(DB_KEY_DETAILS).getValue(String.class));
+        setIconName(itemSnapshot.child(DB_KEY_ICON).getValue(String.class));
         setHeader(false);
     }
 
@@ -73,6 +76,10 @@ public class Schedule implements Parcelable {
 
     public boolean isHeader() {
         return mIsHeader;
+    }
+
+    public String getIconName() {
+        return mIconName;
     }
 
     public void setId(Integer id) {
@@ -111,6 +118,10 @@ public class Schedule implements Parcelable {
         mIsHeader = header;
     }
 
+    public void setIconName(String iconName) {
+        mIconName = iconName;
+    }
+
     @Override
     public String toString() {
         return "Schedule{" +
@@ -121,6 +132,8 @@ public class Schedule implements Parcelable {
                 ", mDay=" + mDay +
                 ", mTimeStart='" + mTimeStart + '\'' +
                 ", mTimeEnd='" + mTimeEnd + '\'' +
+                ", mIsHeader=" + mIsHeader +
+                ", mIconName='" + mIconName + '\'' +
                 '}';
     }
 
@@ -131,17 +144,19 @@ public class Schedule implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.mId);
+        dest.writeValue(this.mId);
         dest.writeString(this.mName);
         dest.writeString(this.mDescription);
         dest.writeString(this.mDetails);
         dest.writeInt(this.mDay == null ? -1 : this.mDay.ordinal());
         dest.writeString(this.mTimeStart);
         dest.writeString(this.mTimeEnd);
+        dest.writeByte(this.mIsHeader ? (byte) 1 : (byte) 0);
+        dest.writeString(this.mIconName);
     }
 
     protected Schedule(Parcel in) {
-        this.mId = in.readInt();
+        this.mId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.mName = in.readString();
         this.mDescription = in.readString();
         this.mDetails = in.readString();
@@ -149,9 +164,11 @@ public class Schedule implements Parcelable {
         this.mDay = tmpMDay == -1 ? null : Day.values()[tmpMDay];
         this.mTimeStart = in.readString();
         this.mTimeEnd = in.readString();
+        this.mIsHeader = in.readByte() != 0;
+        this.mIconName = in.readString();
     }
 
-    public static final Parcelable.Creator<Schedule> CREATOR = new Parcelable.Creator<Schedule>() {
+    public static final Creator<Schedule> CREATOR = new Creator<Schedule>() {
         @Override
         public Schedule createFromParcel(Parcel source) {
             return new Schedule(source);

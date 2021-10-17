@@ -36,6 +36,17 @@
         <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
     </style>
 
+    <style name="Icon">
+        <item name="icon_color">@color/colorPrimary</item>
+        <item name="icon_placeholder">@drawable/anim_loader</item>
+    </style>
+
+    <style name="Icon.Schedule.List" parent="Icon">
+        <item name="android:layout_width">@dimen/icon_size_schedule_list</item>
+        <item name="android:layout_height">@dimen/icon_size_schedule_list</item>
+        <item name="android:layout_marginRight">@dimen/padding_horizontal_default</item>
+    </style>
+
 <!--    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->
 <!--        <item name="android:background">?android:colorBackground</item>-->
 <!--        <item name="titleTextColor">@color/colorPrimary</item>-->

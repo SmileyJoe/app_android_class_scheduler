@@ -17,6 +17,15 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SmileyJoe/lib_android_icons")
+            credentials {
+                username = github_user
+                password = github_token_packages
+            }
+        }
     }
 }
 
