@@ -32,8 +32,9 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
+import io.smileyjoe.classscheduler.object.Schedule;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener {
 
     private AboutFragment mFragmentAbout;
     private ClassFragment mFragmentClass;
@@ -108,5 +109,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_main, fragment, null)
                 .commit();
+    }
+
+    @Override
+    public void onScheduleClicked(Schedule schedule) {
+        startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
     }
 }

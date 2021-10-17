@@ -1,13 +1,18 @@
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout</item>
+
 <!--        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>-->
         <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationStyle</item>
-        <item name="android:statusBarColor">?android:colorBackground</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/color_on_primary</item>
+    </style>
+
+    <style name="AppTheme.InvisibleToolbar">
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout</item>
     </style>
 
     <style name="AppTheme.BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
@@ -21,10 +26,15 @@
 
     <style name="Text.Body" parent="TextAppearance.MaterialComponents.Body1"/>
 
-    <style name="Text.Title" parent="TextAppearance.MaterialComponents.Headline5"/>
+    <style name="Text.Title" parent="TextAppearance.MaterialComponents.Headline5">
+    </style>
 
     <style name="Text.Heading" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text.Heading.Contrast">
+        <item name="android:textColor">@color/color_on_primary</item>
     </style>
 
     <style name="Text.Caption" parent="TextAppearance.MaterialComponents.Body2"/>
@@ -69,6 +79,15 @@
         <item name="android:layout_width">@dimen/icon_size_schedule_list</item>
         <item name="android:layout_height">@dimen/icon_size_schedule_list</item>
         <item name="android:layout_marginRight">@dimen/padding_horizontal_default</item>
+    </style>
+
+    <style name="collapsedTitleTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/color_on_primary</item>
+    </style>
+
+    <style name="circleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 <!--    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->

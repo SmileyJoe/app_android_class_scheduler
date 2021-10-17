@@ -1,9 +1,12 @@
 package io.smileyjoe.classscheduler.object;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.database.DataSnapshot;
+
+import io.smileyjoe.classscheduler.R;
 
 public class Schedule implements Parcelable {
 
@@ -72,6 +75,10 @@ public class Schedule implements Parcelable {
 
     public String getTimeEnd() {
         return mTimeEnd;
+    }
+
+    public String getTimeFormatted(Context context){
+        return context.getString(R.string.text_schedule_time, getTimeStart(), getTimeEnd());
     }
 
     public boolean isHeader() {

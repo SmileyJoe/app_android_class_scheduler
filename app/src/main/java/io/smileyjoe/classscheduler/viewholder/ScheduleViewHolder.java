@@ -12,17 +12,25 @@ import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.icons.view.IconImageView;
 
-public class ScheduleViewHolder extends RecyclerView.ViewHolder {
+public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public interface Listener{
+        void onScheduleClicked(Schedule schedule);
+    }
 
     private Context mContext;
     private TextView mTextName;
     private TextView mTextDescription;
     private TextView mTextTime;
     private IconImageView mIconMain;
+    private Listener mListener;
+    private Schedule mSchedule;
 
-    public ScheduleViewHolder(@NonNull View itemView) {
+    public ScheduleViewHolder(@NonNull View itemView, Listener listener) {
         super(itemView);
 
+        mListener = listener;
+        itemView.setOnClickListener(this);
         mContext = itemView.getContext();
         mTextName = itemView.findViewById(R.id.text_name);
         mTextDescription = itemView.findViewById(R.id.text_description);
@@ -31,9 +39,10 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(Schedule schedule){
+        mSchedule = schedule;
         mTextName.setText(schedule.getName());
         mTextDescription.setText(schedule.getDescription());
-        mTextTime.setText(mContext.getString(R.string.text_schedule_time, schedule.getTimeStart(), schedule.getTimeEnd()));
+        mTextTime.setText(schedule.getTimeFormatted(mContext));
 
         String iconName = schedule.getIconName();
 
@@ -44,6 +53,13 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder {
         } else {
             mIconMain.setImageDrawable(null);
             mIconMain.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mListener != null){
+            mListener.onScheduleClicked(mSchedule);
         }
     }
 }

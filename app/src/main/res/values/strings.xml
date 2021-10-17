@@ -12,4 +12,8 @@
     <string name="title_friday">Friday</string>
     <string name="title_saturday">Saturday</string>
     <string name="title_sunday">Sunday</string>
+    <string name="title_day">Day</string>
+    <string name="title_time">Time</string>
+    <string name="title_description">Description</string>
+    <string name="title_details">Details</string>
 </resources>

@@ -18,12 +18,16 @@ import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements HeaderItemDecoration.StickyHeaderInterface{
 
+    public interface Listener extends ScheduleViewHolder.Listener{}
+
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_SCHEDULE = 1;
     private ArrayList<Schedule> mSchedules;
+    private Listener mListener;
 
-    public ScheduleAdapter(ArrayList<Schedule> schedules) {
+    public ScheduleAdapter(ArrayList<Schedule> schedules, Listener listener) {
         mSchedules = schedules;
+        mListener = listener;
     }
 
     @NonNull
@@ -34,7 +38,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_header_schedule, parent, false));
             case TYPE_SCHEDULE:
             default:
-                return new ScheduleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_schedule, parent, false));
+                return new ScheduleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_schedule, parent, false), mListener);
         }
     }
 

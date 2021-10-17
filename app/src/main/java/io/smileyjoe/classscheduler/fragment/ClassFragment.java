@@ -31,17 +31,24 @@ import io.smileyjoe.classscheduler.object.ScheduleComparator;
 
 public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener{
 
+    public interface Listener extends ScheduleAdapter.Listener{}
+
     private ScheduleAdapter mAdapter;
+    private Listener mListener;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if(getActivity() instanceof Listener){
+            mListener = (Listener) getActivity();
+        }
+
         setupView();
     }
 
     private void setupView(){
-        mAdapter = new ScheduleAdapter(new ArrayList<>());
+        mAdapter = new ScheduleAdapter(new ArrayList<>(), mListener);
         RecyclerView recyclerSchedule = getRoot().recyclerSchedule;
         recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerSchedule.setAdapter(mAdapter);
