@@ -29,6 +29,30 @@
 
     <style name="Text.Caption" parent="TextAppearance.MaterialComponents.Body2"/>
 
+    <style name="Text.Body.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+        <item name="icon_placeholder">@drawable/anim_loader</item>
+    </style>
+
+    <style name="Text.Title.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+        <item name="icon_placeholder">@drawable/anim_loader</item>
+    </style>
+
+    <style name="Text.Heading.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+        <item name="icon_placeholder">@drawable/anim_loader</item>
+    </style>
+
+    <style name="Text.Caption.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+        <item name="icon_placeholder">@drawable/anim_loader</item>
+    </style>
+
     <style name="ListItem">
         <item name="android:paddingTop">@dimen/padding_vertical_default</item>
         <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
@@ -37,7 +61,7 @@
     </style>
 
     <style name="Icon">
-        <item name="icon_color">@color/colorPrimary</item>
+        <item name="icon_color">@color/icon</item>
         <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
@@ -53,4 +77,5 @@
 <!--        <item name="titleCentered">true</item>-->
 <!--    </style>-->
 
+    <dimen name="padding_text_icon">5dp</dimen>
 </resources>

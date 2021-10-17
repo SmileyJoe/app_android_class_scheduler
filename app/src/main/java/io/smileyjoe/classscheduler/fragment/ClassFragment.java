@@ -3,7 +3,9 @@ package io.smileyjoe.classscheduler.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,38 +25,37 @@ import java.util.Collections;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.adapter.HeaderItemDecoration;
 import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
+import io.smileyjoe.classscheduler.databinding.FragmentClassBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.ScheduleComparator;
 
-public class ClassFragment extends Fragment implements ValueEventListener{
+public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener{
 
     private ScheduleAdapter mAdapter;
-
-    public ClassFragment() {
-        super(R.layout.fragment_class);
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupView(view);
-        setDataListener();
+        setupView();
     }
 
-    private void setupView(View view){
+    private void setupView(){
         mAdapter = new ScheduleAdapter(new ArrayList<>());
-        RecyclerView recyclerSchedule = view.findViewById(R.id.recycler_schedule);
+        RecyclerView recyclerSchedule = getRoot().recyclerSchedule;
         recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerSchedule.setAdapter(mAdapter);
         recyclerSchedule.addItemDecoration(new HeaderItemDecoration(recyclerSchedule, mAdapter));
     }
 
-    private void setDataListener(){
-        FirebaseDatabase
-                .getInstance()
-                .getReference(Schedule.DB_NAME)
-                .addValueEventListener(this);
+    @Override
+    protected FragmentClassBinding inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState) {
+        return FragmentClassBinding.inflate(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    protected String getDbName() {
+        return Schedule.DB_NAME;
     }
 
     @Override
