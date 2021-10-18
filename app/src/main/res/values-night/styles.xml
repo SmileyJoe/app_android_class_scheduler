@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="AppTheme.InvisibleToolbar.DayNight">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

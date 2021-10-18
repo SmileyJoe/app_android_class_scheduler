@@ -12,6 +12,7 @@ import android.app.ActivityOptions;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
@@ -40,83 +41,72 @@ import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
 import io.smileyjoe.classscheduler.object.Schedule;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener {
 
-    private ActivityMainBinding mView;
-    private AboutFragment mFragmentAbout;
-    private ClassFragment mFragmentClass;
+    protected static final String FRAGMENT_CLASS = "classes";
+    protected static final String FRAGMENT_ABOUT = "about";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = mView.getRoot();
-        setContentView(view);
+        setSupportActionBar(getView().toolbar);
 
-        setSupportActionBar(mView.toolbar);
-        setupFragments(savedInstanceState);
         setupBottomNav();
-        setProfileImage();
 
-    }
-
-    private void setProfileImage(){
-//        ImageView imageProfile = findViewById(R.id.toolbar_profile_icon);
-//
-//        imageProfile.setImageResource(R.drawable.image_account_circle);
-
-
-//        Glide.with(this)
-//                .asDrawable()
-//                .circleCrop()
-//                .load(R.drawable.ic_account)
-//                .placeholder(R.drawable.ic_account)
-//                .error(R.drawable.ic_account)
-//                .into();
-    }
-
-    private void setupFragments(Bundle savedInstanceState){
-        if(savedInstanceState == null){
-            mFragmentAbout = new AboutFragment();
-            mFragmentClass = new ClassFragment();
+        if(savedInstanceState == null) {
+            getView().bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
         }
-    }
-
-    private void setupBottomNav(){
-        mView.bottomNavigationMain.setOnNavigationItemSelectedListener(this);
-        mView.bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                Log.d("ImageThings", "Clicked nav");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    protected ActivityMainBinding inflate() {
+        return ActivityMainBinding.inflate(getLayoutInflater());
+    }
+
+    private void setupBottomNav(){
+        getView().bottomNavigationMain.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_about:
-                changeFragment(mFragmentAbout);
+                changeFragment(FRAGMENT_ABOUT);
                 return true;
             case R.id.menu_classes:
-                changeFragment(mFragmentClass);
+                changeFragment(FRAGMENT_CLASS);
                 return true;
             default:
                 return false;
         }
     }
 
-    private void changeFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_main, fragment, null)
-                .commit();
+    protected Fragment getNewFragment(String tag){
+        switch (tag){
+            case FRAGMENT_ABOUT:
+                return new AboutFragment();
+            case FRAGMENT_CLASS:
+                return new ClassFragment();
+            default:
+                return null;
+        }
+    }
+
+    protected void changeFragment(String tag){
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+
+        if(fragment == null){
+            fragment = getNewFragment(tag);
+        }
+
+        if(fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_container_main, fragment, tag)
+                    .commit();
+
+            getSupportFragmentManager().executePendingTransactions();
+        }
     }
 
     @Override

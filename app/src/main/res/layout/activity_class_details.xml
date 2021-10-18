@@ -28,21 +28,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="parallax">
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/image_icon"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="@dimen/class_details_icon_size"
                     android:layout_height="@dimen/class_details_icon_size"
-                    android:tint="@color/colorPrimary"
-                    app:contentPadding="@dimen/class_details_icon_content_padding"
                     app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:cardElevation="@dimen/class_details_icon_elevation"
                     app:layout_anchorGravity="bottom|center_horizontal"
-                    android:elevation="@dimen/class_details_icon_elevation"
-                    android:background="@color/color_on_primary"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/class_details_icon_margin_bottom"
                     android:transitionName="icon"
-                    android:layout_marginBottom="@dimen/class_details_icon_margin_bottom"/>
-
+                    app:contentPadding="@dimen/class_details_icon_content_padding">
+                    <io.smileyjoe.icons.view.IconImageView
+                        android:id="@+id/image_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        style="@style/Icon"/>
+                </com.google.android.material.card.MaterialCardView>
                 <View
                     android:id="@+id/view_spacer"
                     android:layout_width="match_parent"

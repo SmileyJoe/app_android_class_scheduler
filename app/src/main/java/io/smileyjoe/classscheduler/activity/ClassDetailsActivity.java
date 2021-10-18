@@ -18,12 +18,11 @@ import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.icons.Icon;
 
-public class ClassDetailsActivity extends AppCompatActivity {
+public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> {
 
     private static final String EXTRA_SCHEDULE = "schedule";
 
     private Schedule mSchedule;
-    private ActivityClassDetailsBinding mView;
 
     public static Intent getIntent(Context context, Schedule schedule){
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -36,19 +35,22 @@ public class ClassDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = ActivityClassDetailsBinding.inflate(getLayoutInflater());
-        View view = mView.getRoot();
-        setContentView(view);
         handleExtras();
         setupToolbar();
         populate();
     }
 
+    @Override
+    protected ActivityClassDetailsBinding inflate() {
+        return ActivityClassDetailsBinding.inflate(getLayoutInflater());
+    }
+
     private void setupToolbar(){
-        setSupportActionBar(mView.toolbar);
+        Toolbar toolbar = getView().toolbar;
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mView.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        mView.toolbarCollapsing.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.color_on_primary));
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        getView().toolbarCollapsing.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.color_on_primary));
     }
 
     private void handleExtras(){
@@ -59,26 +61,26 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     private void populate(){
         if(!TextUtils.isEmpty(mSchedule.getIconName())){
-            mView.layoutToolbarContent.setVisibility(View.VISIBLE);
+            getView().layoutToolbarContent.setVisibility(View.VISIBLE);
             setAppBarHeight(R.dimen.class_details_toolbar_height);
-            mView.toolbarCollapsing.setExpandedTitleGravity(Gravity.CENTER|Gravity.TOP);
-            Icon.load(getBaseContext(), mSchedule.getIconName(), icon -> mView.imageIcon.setImageDrawable(icon));
+            getView().toolbarCollapsing.setExpandedTitleGravity(Gravity.CENTER|Gravity.TOP);
+            getView().imageIcon.setIcon(mSchedule.getIconName());
         } else {
-            mView.layoutToolbarContent.setVisibility(View.GONE);
+            getView().layoutToolbarContent.setVisibility(View.GONE);
             setAppBarHeight(R.dimen.class_details_toolbar_small_height);
-            mView.toolbarCollapsing.setExpandedTitleGravity(Gravity.CENTER);
+            getView().toolbarCollapsing.setExpandedTitleGravity(Gravity.CENTER);
         }
 
         getSupportActionBar().setTitle(mSchedule.getName());
-        mView.detailDescription.setContent(mSchedule.getDescription());
-        mView.detailTime.setContent(mSchedule.getTimeFormatted(getBaseContext()));
-        mView.detailDetails.setContent(mSchedule.getDetails());
-        mView.detailDay.setContent(mSchedule.getDay().getTitle(getBaseContext()));
+        getView().detailDescription.setContent(mSchedule.getDescription());
+        getView().detailTime.setContent(mSchedule.getTimeFormatted(getBaseContext()));
+        getView().detailDetails.setContent(mSchedule.getDetails());
+        getView().detailDay.setContent(mSchedule.getDay().getTitle(getBaseContext()));
     }
 
     private void setAppBarHeight(@DimenRes int dimension){
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mView.appBar.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getView().appBar.getLayoutParams();
         params.height = getResources().getDimensionPixelOffset(dimension);
-        mView.appBar.setLayoutParams(params);
+        getView().appBar.setLayoutParams(params);
     }
 }

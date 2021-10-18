@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_classes"
+        android:enabled="true"
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/menu_classes"/>
+    <item
+        android:id="@+id/menu_about"
+        android:enabled="true"
+        android:icon="@drawable/ic_about"
+        android:title="@string/menu_about"/>
+
+    <item
+        android:id="@+id/menu_style"
+        android:enabled="true"
+        android:icon="@drawable/ic_brush"
+        android:title="@string/menu_styles"/>
+</menu>

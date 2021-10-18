@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_vertical_default"
+        android:paddingBottom="@dimen/padding_vertical_default"
+        android:paddingLeft="@dimen/padding_horizontal_default"
+        android:paddingRight="@dimen/padding_horizontal_default">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Icons"
+            style="@style/Text.Heading.Underline"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_horizontal_default"
+            android:layout_marginBottom="@dimen/padding_vertical_default">
+            <io.smileyjoe.icons.view.IconImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:icon_name="information"
+                style="@style/Icon"/>
+
+            <io.smileyjoe.icons.view.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Body Icon"
+                app:icon_name="information"
+                style="@style/Text.Body.Icon"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text"
+            style="@style/Text.Heading.Underline"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_horizontal_default"
+            android:layout_marginBottom="@dimen/padding_vertical_default">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heading"
+                style="@style/Text.Heading"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                style="@style/Text.Title"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Caption"
+                style="@style/Text.Caption"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Body"
+                style="@style/Text.Body"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Styles"
+            style="@style/Text.Heading.Underline"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/button_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/button_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

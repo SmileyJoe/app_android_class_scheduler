@@ -14,7 +14,8 @@
     <dimen name="class_details_toolbar_small_height">150dp</dimen>
     <dimen name="class_details_icon_size">150dp</dimen>
     <dimen name="class_details_icon_content_padding">20dp</dimen>
-    <dimen name="class_details_icon_elevation">10dp</dimen>
+    <dimen name="class_details_icon_elevation">5dp</dimen>
     <dimen name="class_details_icon_margin_bottom">40dp</dimen>
     <dimen name="class_details_toolbar_spacer_height">120dp</dimen>
+    <dimen name="divider_height">2dp</dimen>
 </resources>
