@@ -13,30 +13,11 @@
         android:layout_height="wrap_content"
         app:liftOnScroll="true">
 
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="@string/app_name"
-                android:textColor="@color/colorPrimary"
-                android:layout_centerVertical="true"
-                android:textAlignment="center"
-                android:textAppearance="?attr/textAppearanceHeadline6"/>
-            <ImageView
-                android:id="@+id/toolbar_profile_icon"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/profile_icon_toolbar_margin_left"
-                android:layout_marginRight="@dimen/profile_icon_toolbar_margin_right"
-                android:paddingBottom="@dimen/profile_icon_toolbar_padding_bottom"
-                android:paddingTop="@dimen/profile_icon_toolbar_padding_top"/>
-        </RelativeLayout>
+            android:layout_height="?attr/actionBarSize">
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

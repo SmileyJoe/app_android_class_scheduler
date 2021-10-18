@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.ClassDetailsActivity"></activity>
         <activity android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.InvisibleToolbar">
+            android:theme="@style/AppTheme.InvisibleToolbar"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

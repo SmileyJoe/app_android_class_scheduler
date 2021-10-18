@@ -5,21 +5,35 @@
         <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationStyle</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:textColorSecondary">@color/color_on_primary</item>
+        <item name="android:windowEnterTransition">@android:transition/move</item>
+        <item name="android:windowExitTransition">@android:transition/move</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppTheme.InvisibleToolbar">
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="toolbarStyle">@style/Toolbar.Invisible</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout</item>
+        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout.Invisible</item>
+    </style>
+
+    <style name="Toolbar.Invisible" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/Toolbar.Title.Invisible</item>
+    </style>
+
+    <style name="Toolbar.Title.Invisible" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!--Any text styling can be done here-->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="AppTheme.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+    <style name="AppTheme.AppBarLayout.Invisible" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="elevation">0dp</item>
         <item name="android:background">?android:colorBackground</item>
     </style>

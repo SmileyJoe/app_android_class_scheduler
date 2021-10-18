@@ -15,7 +15,7 @@ import io.smileyjoe.icons.view.IconImageView;
 public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public interface Listener{
-        void onScheduleClicked(Schedule schedule);
+        void onScheduleClicked(Schedule schedule, View view);
     }
 
     private Context mContext;
@@ -25,10 +25,12 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     private IconImageView mIconMain;
     private Listener mListener;
     private Schedule mSchedule;
+    private View mItemView;
 
     public ScheduleViewHolder(@NonNull View itemView, Listener listener) {
         super(itemView);
 
+        mItemView = itemView;
         mListener = listener;
         itemView.setOnClickListener(this);
         mContext = itemView.getContext();
@@ -59,7 +61,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View v) {
         if(mListener != null){
-            mListener.onScheduleClicked(mSchedule);
+            mListener.onScheduleClicked(mSchedule, mItemView);
         }
     }
 }

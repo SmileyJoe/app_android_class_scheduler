@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.ActivityOptions;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,21 +34,26 @@ import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
+import io.smileyjoe.classscheduler.databinding.ActivityMainBinding;
 import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
 import io.smileyjoe.classscheduler.object.Schedule;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener {
 
+    private ActivityMainBinding mView;
     private AboutFragment mFragmentAbout;
     private ClassFragment mFragmentClass;
-//    private MaterialToolbar mMaterialToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mView = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = mView.getRoot();
+        setContentView(view);
 
+        setSupportActionBar(mView.toolbar);
         setupFragments(savedInstanceState);
         setupBottomNav();
         setProfileImage();
@@ -52,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void setProfileImage(){
-        ImageView imageProfile = findViewById(R.id.toolbar_profile_icon);
-
-        imageProfile.setImageResource(R.drawable.image_account_circle);
+//        ImageView imageProfile = findViewById(R.id.toolbar_profile_icon);
+//
+//        imageProfile.setImageResource(R.drawable.image_account_circle);
 
 
 //        Glide.with(this)
@@ -74,9 +83,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void setupBottomNav(){
-        BottomNavigationView bottomNavigationMain = findViewById(R.id.bottom_navigation_main);
-        bottomNavigationMain.setOnNavigationItemSelectedListener(this);
-        bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
+        mView.bottomNavigationMain.setOnNavigationItemSelectedListener(this);
+        mView.bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
     }
 
     @Override
@@ -112,7 +120,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public void onScheduleClicked(Schedule schedule) {
-        startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
+    public void onScheduleClicked(Schedule schedule, View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                    Pair.create(view, "icon"),
+                    Pair.create(view, "description"),
+                    Pair.create(view, "time"),
+                    Pair.create(view, "name"));
+            startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule), options.toBundle());
+        } else {
+            startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
+        }
+
     }
 }
