@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:transitionName="shared_element_container"
     style="@style/ListItem">
 
     <io.smileyjoe.icons.view.IconImageView
         android:id="@+id/icon_main"
         android:layout_gravity="center_vertical"
-        android:transitionName="icon"
         style="@style/Icon.Schedule.List"/>
 
     <LinearLayout
@@ -21,19 +21,16 @@
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:transitionName="name"
             style="@style/Text.Title"/>
         <TextView
             android:id="@+id/text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:transitionName="description"
             style="@style/Text.Body"/>
         <TextView
             android:id="@+id/text_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:transitionName="time"
             style="@style/Text.Caption"/>
     </LinearLayout>
 </LinearLayout>

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
@@ -48,6 +51,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setExitSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+
+        getWindow().setSharedElementsUseOverlay(false);
+
         super.onCreate(savedInstanceState);
         setSupportActionBar(getView().toolbar);
 
@@ -112,11 +119,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     @Override
     public void onScheduleClicked(Schedule schedule, View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair.create(view, "icon"),
-                    Pair.create(view, "description"),
-                    Pair.create(view, "time"),
-                    Pair.create(view, "name"));
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view, "shared_element_container");
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule), options.toBundle());
         } else {
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));

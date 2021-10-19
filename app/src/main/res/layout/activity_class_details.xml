@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:colorBackground"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,6 +21,8 @@
             app:expandedTitleTextAppearance="@style/Text.Heading.Contrast"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
+            app:scrimVisibleHeightTrigger="180dp"
+            app:scrimAnimationDuration="300"
             app:expandedTitleGravity="center|top"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
