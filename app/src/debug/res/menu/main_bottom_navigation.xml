@@ -6,11 +6,15 @@
         android:icon="@drawable/ic_schedule"
         android:title="@string/menu_classes"/>
     <item
+        android:id="@+id/menu_account"
+        android:enabled="true"
+        android:icon="@drawable/ic_account"
+        android:title="@string/menu_account"/>
+    <item
         android:id="@+id/menu_about"
         android:enabled="true"
         android:icon="@drawable/ic_about"
         android:title="@string/menu_about"/>
-
     <item
         android:id="@+id/menu_style"
         android:enabled="true"

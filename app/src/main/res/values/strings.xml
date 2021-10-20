@@ -16,4 +16,7 @@
     <string name="title_time">Time</string>
     <string name="title_description">Description</string>
     <string name="title_details">Details</string>
+    <string name="menu_account">Account</string>
+    <string name="button_sign_out">Sign Out</string>
+    <string name="text_login">Login</string>
 </resources>

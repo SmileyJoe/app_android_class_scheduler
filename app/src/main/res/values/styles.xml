@@ -6,8 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="android:textColorSecondary">@color/color_on_primary</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="materialButtonStyle">@style/Button</item>
+        <item name="textInputStyle">@style/TextInput</item>
+    </style>
+
+    <style name="AppTheme.Primary">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="colorAccent">@color/colorOnPrimary</item>
+        <item name="materialButtonStyle">@style/Button.Inverse</item>
     </style>
 
     <style name="AppTheme.InvisibleToolbar">
@@ -20,6 +30,22 @@
     <style name="AppTheme.InvisibleToolbar.DayNight">
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <style name="Padding.Default" parent="">
+        <item name="android:paddingTop">@dimen/padding_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
+        <item name="android:paddingLeft">@dimen/padding_horizontal_default</item>
+        <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
+    </style>
+
+    <style name="Button" parent="Widget.MaterialComponents.Button"></style>
+
+    <style name="Button.Inverse">
+        <item name="backgroundTint">@color/colorOnPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"></style>
 
     <style name="Toolbar.Invisible" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextAppearance">@style/Toolbar.Title.Invisible</item>
@@ -86,11 +112,7 @@
         <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
-    <style name="ListItem">
-        <item name="android:paddingTop">@dimen/padding_vertical_default</item>
-        <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
-        <item name="android:paddingLeft">@dimen/padding_horizontal_default</item>
-        <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
+    <style name="ListItem" parent="@style/Padding.Default">
     </style>
 
     <style name="Icon">

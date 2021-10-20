@@ -1,5 +1,7 @@
 package io.smileyjoe.classscheduler.activity;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,24 +33,36 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.firebase.ui.auth.AuthMethodPickerLayout;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
 import io.smileyjoe.classscheduler.databinding.ActivityMainBinding;
 import io.smileyjoe.classscheduler.fragment.AboutFragment;
+import io.smileyjoe.classscheduler.fragment.AccountFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
 import io.smileyjoe.classscheduler.object.Schedule;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener, AccountFragment.Listener {
 
     protected static final String FRAGMENT_CLASS = "classes";
     protected static final String FRAGMENT_ABOUT = "about";
+    protected static final String FRAGMENT_ACCOUNT = "account";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +93,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_about:
-                changeFragment(FRAGMENT_ABOUT);
-                return true;
+                return changeFragment(FRAGMENT_ABOUT);
             case R.id.menu_classes:
-                changeFragment(FRAGMENT_CLASS);
-                return true;
+                return changeFragment(FRAGMENT_CLASS);
+            case R.id.menu_account:
+                return changeFragment(FRAGMENT_ACCOUNT);
             default:
                 return false;
         }
@@ -94,12 +109,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
                 return new AboutFragment();
             case FRAGMENT_CLASS:
                 return new ClassFragment();
+            case FRAGMENT_ACCOUNT:
+                return new AccountFragment();
             default:
                 return null;
         }
     }
 
-    protected void changeFragment(String tag){
+    protected boolean changeFragment(String tag){
+        if(FirebaseAuth.getInstance().getCurrentUser() == null && tag.equals(FRAGMENT_ACCOUNT)){
+            startActivity(LoginActivity.getIntent(getBaseContext()));
+            return false;
+        }
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
 
         if(fragment == null){
@@ -114,6 +135,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
 
             getSupportFragmentManager().executePendingTransactions();
         }
+
+        return true;
+    }
+
+    @Override
+    public void onLogout() {
+        getView().bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
     }
 
     @Override

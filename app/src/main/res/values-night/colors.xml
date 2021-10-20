@@ -4,6 +4,7 @@
     <color name="colorPrimaryLight">#ffc4ff</color>
     <color name="colorPrimaryDark">#9c64a6</color>
     <color name="colorPrimaryText">#ffffff</color>
+    <color name="colorOnPrimary">#000000</color>
     <color name="loader">@android:color/white</color>
     <color name="icon">@color/colorPrimary</color>
     <color name="color_on_primary">#FFFFFF</color>
