@@ -6,18 +6,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.Transition;
+import android.transition.TransitionValues;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.transition.platform.MaterialContainerTransform;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+
+import java.lang.reflect.Field;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
@@ -40,25 +48,26 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        findViewById(android.R.id.content).setTransitionName("shared_element_container");
-        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
-
-        MaterialContainerTransform transform = new MaterialContainerTransform();
-        transform.addTarget(android.R.id.content);
-        transform.setDuration(300L);
-
-        TypedValue a = new TypedValue();
-        getTheme().resolveAttribute(android.R.attr.colorBackground, a, true);
-        transform.setAllContainerColors(a.data);
-
-        getWindow().setSharedElementEnterTransition(transform);
-        getWindow().setSharedElementReturnTransition(transform);
-        getWindow().setSharedElementsUseOverlay(false);
+//        findViewById(android.R.id.content).setTransitionName("shared_element_container");
+//        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+//
+//        MaterialContainerTransform transform = new MaterialContainerTransform();
+//        transform.addTarget(android.R.id.content);
+//        transform.setDuration(300L);
+//
+//        TypedValue a = new TypedValue();
+//        getTheme().resolveAttribute(android.R.attr.colorBackground, a, true);
+//        transform.setAllContainerColors(a.data);
+//
+//        getWindow().setSharedElementEnterTransition(transform);
+//        getWindow().setSharedElementReturnTransition(transform);
+//        getWindow().setSharedElementsUseOverlay(false);
 
         super.onCreate(savedInstanceState);
         handleExtras();
         setupToolbar();
         populate();
+
     }
 
     @Override
@@ -66,6 +75,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         return ActivityClassDetailsBinding.inflate(getLayoutInflater());
     }
 
+    @SuppressLint("RestrictedApi")
     private void setupToolbar(){
         Toolbar toolbar = getView().toolbar;
         setSupportActionBar(toolbar);
@@ -77,7 +87,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
     private void handleExtras(){
         Bundle extras = getIntent().getExtras();
 
-        mSchedule = (Schedule) extras.getParcelable(EXTRA_SCHEDULE);
+        mSchedule = extras.getParcelable(EXTRA_SCHEDULE);
     }
 
     private void populate(){

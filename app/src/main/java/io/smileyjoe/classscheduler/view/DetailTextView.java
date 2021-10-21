@@ -3,8 +3,11 @@ package io.smileyjoe.classscheduler.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,10 +42,19 @@ public class DetailTextView extends LinearLayout {
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DetailTextView, 0, 0);
 
+            setTransitionNames(a.getString(R.styleable.DetailTextView_transition_prefix));
             setTitle(a.getString(R.styleable.DetailTextView_title));
             setContent(a.getString(R.styleable.DetailTextView_content));
 
             a.recycle();
+        }
+    }
+
+    private void setTransitionNames(String prefix){
+        if(!TextUtils.isEmpty(prefix)){
+            prefix = prefix.toLowerCase();
+            mView.textTitle.setTransitionName(prefix + "_title");
+            mView.textContent.setTransitionName(prefix + "_content");
         }
     }
 

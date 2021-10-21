@@ -3,5 +3,6 @@
     <declare-styleable name="DetailTextView">
         <attr name="title" format="string" />
         <attr name="content" format="reference"/>
+        <attr name="transition_prefix" format="string"/>
     </declare-styleable>
 </resources>

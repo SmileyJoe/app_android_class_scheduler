@@ -4,32 +4,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 
-import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
 
-import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityLoginBinding;
+import io.smileyjoe.classscheduler.utils.Animation;
+import io.smileyjoe.classscheduler.utils.Animations;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
-    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+    private Animations mAnimation;
+
+    private final ActivityResultLauncher<Intent> mSignInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             (result) -> onSignInResult(result)
     );
 
-    public static Intent getIntent(Context context){
+    public static Intent getIntent(Context context) {
         return new Intent(context, LoginActivity.class);
     }
 
@@ -42,10 +44,27 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getView().buttonLogin.setOnClickListener(v -> performLogin());
+        Button button = getView().buttonLogin;
+        TextView text = getView().textLogin;
+
+        button.setOnClickListener(v -> performLogin());
+
+        mAnimation = Animations.with(this)
+                .addAnimation(
+                        Animation.on(text)
+                                .entry(Animation.Type.TOP))
+                .addAnimation(
+                        Animation.on(button)
+                                .entry(Animation.Type.LEFT))
+                .enter();
     }
 
-    private void performLogin(){
+    @Override
+    public void onBackPressed() {
+        mAnimation.exit(this);
+    }
+
+    private void performLogin() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
@@ -54,7 +73,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 .setAvailableProviders(providers)
                 .build();
 
-        signInLauncher.launch(signInIntent);
+        mSignInLauncher.launch(signInIntent);
     }
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
@@ -63,7 +82,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             setResult(RESULT_OK);
             finish();
         } else {
-            if(response != null){
+            if (response != null) {
                 Log.d("UserThings", "Sign in failed: " + response.getError().getMessage());
             } else {
                 // Do nothing, this means the user cancelled login

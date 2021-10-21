@@ -38,6 +38,13 @@
         <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
     </style>
 
+    <style name="Margin.Default" parent="">
+        <item name="android:layout_marginTop">@dimen/padding_vertical_default</item>
+        <item name="android:layout_marginBottom">@dimen/padding_vertical_default</item>
+        <item name="android:layout_marginLeft">@dimen/padding_horizontal_default</item>
+        <item name="android:layout_marginRight">@dimen/padding_horizontal_default</item>
+    </style>
+
     <style name="Button" parent="Widget.MaterialComponents.Button"></style>
 
     <style name="Button.Inverse">
