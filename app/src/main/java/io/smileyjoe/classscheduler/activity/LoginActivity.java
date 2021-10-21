@@ -45,17 +45,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         super.onCreate(savedInstanceState);
 
         Button button = getView().buttonLogin;
-        TextView text = getView().textLogin;
 
         button.setOnClickListener(v -> performLogin());
 
         mAnimation = Animations.with(this)
                 .addAnimation(
-                        Animation.on(text)
+                        Animation.on(getView().textLogin)
                                 .entry(Animation.Type.TOP))
                 .addAnimation(
                         Animation.on(button)
                                 .entry(Animation.Type.LEFT))
+                .addAnimation(
+                        Animation.on(getView().iconMain)
+                        .entry(Animation.Type.RIGHT)
+                )
                 .enter();
     }
 

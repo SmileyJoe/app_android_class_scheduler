@@ -147,6 +147,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     @Override
     public void onScheduleClicked(Schedule schedule, View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view.findViewById(R.id.icon_main), "shared_element_container");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                     Pair.create(view.findViewById(R.id.icon_main), "icon"),
                     Pair.create(view.findViewById(R.id.text_description), "description_content"),

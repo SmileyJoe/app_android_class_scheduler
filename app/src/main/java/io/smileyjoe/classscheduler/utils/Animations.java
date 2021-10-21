@@ -46,7 +46,7 @@ public class Animations {
 
         new Handler().postDelayed(() -> {
             activity.finish();
-        }, Animation.ANIM_DURATION_EXIT);
+        }, Animation.ANIM_DURATION_EXIT - 100);
     }
 
 }

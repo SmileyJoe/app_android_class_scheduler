@@ -8,8 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
+
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.icons.Icon;
 import io.smileyjoe.icons.view.IconImageView;
 
 public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -22,6 +25,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     private TextView mTextName;
     private TextView mTextDescription;
     private TextView mTextTime;
+//    private ShapeableImageView mIconMain;
     private IconImageView mIconMain;
     private Listener mListener;
     private Schedule mSchedule;
@@ -49,6 +53,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         String iconName = schedule.getIconName();
 
         if(!TextUtils.isEmpty(iconName)) {
+//            Icon.load(mContext, schedule.getIconName(), icon -> mIconMain.setImageDrawable(icon));
             mIconMain.reset();
             mIconMain.setIcon(schedule.getIconName());
             mIconMain.setVisibility(View.VISIBLE);
