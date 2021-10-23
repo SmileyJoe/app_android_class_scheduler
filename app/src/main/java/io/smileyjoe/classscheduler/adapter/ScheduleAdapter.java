@@ -1,5 +1,6 @@
 package io.smileyjoe.classscheduler.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.databinding.ListHeaderScheduleBinding;
+import io.smileyjoe.classscheduler.databinding.ListRowScheduleBinding;
 import io.smileyjoe.classscheduler.object.Day;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.viewholder.HeaderViewHolder;
 import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements HeaderItemDecoration.StickyHeaderInterface{
+public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements HeaderItemDecoration.StickyHeaderInterface<ListHeaderScheduleBinding>{
 
     public interface Listener extends ScheduleViewHolder.Listener{}
 
@@ -35,10 +38,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType){
             case TYPE_HEADER:
-                return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_header_schedule, parent, false));
+                return new HeaderViewHolder(parent.getContext());
             case TYPE_SCHEDULE:
             default:
-                return new ScheduleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_schedule, parent, false), mListener);
+                return new ScheduleViewHolder(parent, mListener);
         }
     }
 
@@ -107,12 +110,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public int getHeaderLayout(int headerPosition) {
-        return R.layout.list_header_schedule;
+    public ListHeaderScheduleBinding getHeaderLayout(ViewGroup parent, int headerPosition) {
+        return ListHeaderScheduleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
     }
 
     @Override
-    public void bindHeaderData(View header, int headerPosition) {
+    public void bindHeaderData(ListHeaderScheduleBinding header, int headerPosition) {
         HeaderViewHolder holder = new HeaderViewHolder(header);
         holder.onBind(getItem(headerPosition));
     }

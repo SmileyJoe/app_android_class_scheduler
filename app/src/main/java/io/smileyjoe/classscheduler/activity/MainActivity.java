@@ -53,6 +53,7 @@ import java.util.List;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
 import io.smileyjoe.classscheduler.databinding.ActivityMainBinding;
+import io.smileyjoe.classscheduler.databinding.ListRowScheduleBinding;
 import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.AccountFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
@@ -145,13 +146,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     }
 
     @Override
-    public void onScheduleClicked(Schedule schedule, View view) {
+    public void onScheduleClicked(Schedule schedule, ListRowScheduleBinding view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view.findViewById(R.id.icon_main), "shared_element_container");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair.create(view.findViewById(R.id.icon_main), "icon"),
-                    Pair.create(view.findViewById(R.id.text_description), "description_content"),
-                    Pair.create(view.findViewById(R.id.text_time), "time_content"));
+                    Pair.create(view.iconMain, "icon"),
+                    Pair.create(view.textDescription, "description_content"),
+                    Pair.create(view.textTime, "time_content"));
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule), options.toBundle());
         } else {
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));

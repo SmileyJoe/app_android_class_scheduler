@@ -1,5 +1,6 @@
 package io.smileyjoe.classscheduler.adapter;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,13 +9,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
+
+import io.smileyjoe.classscheduler.databinding.ListHeaderScheduleBinding;
 
 /**
  * Take from:
  *
  * https://stackoverflow.com/a/44327350
  */
-public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
+public class HeaderItemDecoration<T extends ViewBinding> extends RecyclerView.ItemDecoration {
 
     private StickyHeaderInterface mListener;
     private int mStickyHeaderHeight;
@@ -74,10 +78,9 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
 
     private View getHeaderViewForItem(int itemPosition, RecyclerView parent) {
         int headerPosition = mListener.getHeaderPositionForItem(itemPosition);
-        int layoutResId = mListener.getHeaderLayout(headerPosition);
-        View header = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
+        ViewBinding header = mListener.getHeaderLayout(parent, headerPosition);
         mListener.bindHeaderData(header, headerPosition);
-        return header;
+        return header.getRoot();
     }
 
     private void drawHeader(Canvas c, View header) {
@@ -128,7 +131,7 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
         view.layout(0, 0, view.getMeasuredWidth(), mStickyHeaderHeight = view.getMeasuredHeight());
     }
 
-    public interface StickyHeaderInterface {
+    public interface StickyHeaderInterface<T extends ViewBinding> {
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to fetch the position of the header item in the adapter
@@ -143,14 +146,14 @@ public class HeaderItemDecoration extends RecyclerView.ItemDecoration {
          * @param headerPosition int. Position of the header item in the adapter.
          * @return int. Layout resource id.
          */
-        int getHeaderLayout(int headerPosition);
+        T getHeaderLayout(ViewGroup parent, int headerPosition);
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to setup the header View.
          * @param header View. Header to set the data on.
          * @param headerPosition int. Position of the header item in the adapter.
          */
-        void bindHeaderData(View header, int headerPosition);
+        void bindHeaderData(T header, int headerPosition);
 
         /**
          * This method gets called by {@link HeaderItemDecoration} to verify whether the item represents a header.
