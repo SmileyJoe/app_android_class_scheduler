@@ -75,13 +75,12 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         return ActivityClassDetailsBinding.inflate(getLayoutInflater());
     }
 
-    @SuppressLint("RestrictedApi")
     private void setupToolbar(){
         Toolbar toolbar = getView().toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        getView().toolbarCollapsing.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.color_on_primary));
+        getView().toolbarCollapsing.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorOnPrimary));
     }
 
     private void handleExtras(){

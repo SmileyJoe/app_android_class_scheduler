@@ -28,8 +28,9 @@ import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
 import io.smileyjoe.classscheduler.databinding.FragmentClassBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.ScheduleComparator;
+import io.smileyjoe.classscheduler.utils.LoadingLinearLayoutManager;
 
-public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener{
+public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener, ScheduleAdapter.DataListener{
 
     public interface Listener extends ScheduleAdapter.Listener{}
 
@@ -48,9 +49,8 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
     }
 
     private void setupView(){
-        mAdapter = new ScheduleAdapter(new ArrayList<>(), mListener);
+        mAdapter = new ScheduleAdapter(mListener, this);
         RecyclerView recyclerSchedule = getRoot().recyclerSchedule;
-        recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerSchedule.setAdapter(mAdapter);
         recyclerSchedule.addItemDecoration(new HeaderItemDecoration(recyclerSchedule, mAdapter));
     }
@@ -67,19 +67,32 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
-        ArrayList<Schedule> schedules = new ArrayList<>();
+        if(mAdapter != null) {
+            ArrayList<Schedule> schedules = new ArrayList<>();
 
-        for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
-            schedules.add(new Schedule(itemSnapshot));
+            for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                schedules.add(new Schedule(itemSnapshot));
+            }
+
+            Collections.sort(schedules, new ScheduleComparator());
+
+            mAdapter.setItems(schedules);
         }
-
-        Collections.sort(schedules, new ScheduleComparator());
-
-        mAdapter.setItems(schedules);
     }
 
     @Override
     public void onCancelled(@NonNull DatabaseError error) {
         Log.w("DbThings", "Failed to read value.", error.toException());
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+        if(getRoot() != null && getRoot().recyclerSchedule != null) {
+            if (isLoading) {
+                getRoot().recyclerSchedule.setLayoutManager(new LoadingLinearLayoutManager(getContext()));
+            } else {
+                getRoot().recyclerSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        }
     }
 }

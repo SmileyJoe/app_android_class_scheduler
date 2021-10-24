@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 
 import io.smileyjoe.classscheduler.databinding.FragmentAboutBinding;
 import io.smileyjoe.classscheduler.databinding.FragmentStyleBinding;
+import io.smileyjoe.classscheduler.utils.LoadingData;
 
 public class StyleFragment extends Fragment {
 
     private FragmentStyleBinding mView;
+    private LoadingData mLoadingData;
 
     @Nullable
     @Override
@@ -32,5 +34,12 @@ public class StyleFragment extends Fragment {
         mView.buttonDark.setOnClickListener(v -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES));
         mView.buttonLight.setOnClickListener(v -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO));
         mView.buttonDefault.setOnClickListener(v -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM));
+
+        mLoadingData = LoadingData.init().add(mView.textLoading, 30);
+        mLoadingData.update(true);
+        mView.textLoading.setOnClickListener(v -> {
+            mLoadingData.update(false);
+            mView.textLoading.setText("This is text after loading");
+        });
     }
 }

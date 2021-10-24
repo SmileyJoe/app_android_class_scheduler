@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ListHeaderScheduleBinding;
@@ -22,15 +23,30 @@ import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements HeaderItemDecoration.StickyHeaderInterface<ListHeaderScheduleBinding>{
 
     public interface Listener extends ScheduleViewHolder.Listener{}
+    public interface DataListener{
+        void onLoadingChanged(boolean isLoading);
+    }
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_SCHEDULE = 1;
     private ArrayList<Schedule> mSchedules;
     private Listener mListener;
+    private DataListener mDataListener;
+    private boolean mIsLoading = false;
 
-    public ScheduleAdapter(ArrayList<Schedule> schedules, Listener listener) {
-        mSchedules = schedules;
+    public ScheduleAdapter(Listener listener, DataListener dataListener) {
         mListener = listener;
+        mDataListener = dataListener;
+        setLoading(true);
+    }
+
+    public void setLoading(boolean loading) {
+        if(mIsLoading != loading) {
+            mIsLoading = loading;
+            if(mDataListener != null){
+                mDataListener.onLoadingChanged(loading);
+            }
+        }
     }
 
     @NonNull
@@ -68,7 +84,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public Schedule getItem(int position){
-        return mSchedules.get(position);
+        if(mIsLoading){
+            if(position == 0){
+                Schedule schedule = new Schedule();
+                schedule.setHeader(true);
+                return schedule;
+            } else {
+                return new Schedule();
+            }
+
+        } else {
+            return mSchedules.get(position);
+        }
     }
 
     public void setItems(ArrayList<Schedule> schedules){
@@ -88,12 +115,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
+        setLoading(false);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mSchedules.size();
+        if(mIsLoading){
+            return 12;
+        } else if(mSchedules == null){
+            return 0;
+        } else {
+            return mSchedules.size();
+        }
     }
 
     @Override

@@ -5,7 +5,6 @@
     <color name="colorPrimaryDark">#4a0072</color>
     <color name="colorPrimaryText">#000000</color>
     <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="loader">#545454</color>
+    <color name="loader">#CCCCCC</color>
     <color name="icon">@color/colorPrimary</color>
-    <color name="color_on_primary">#FFFFFF</color>
 </resources>

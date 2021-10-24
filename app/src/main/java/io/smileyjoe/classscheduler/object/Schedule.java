@@ -29,15 +29,20 @@ public class Schedule implements Parcelable {
     private String mTimeEnd;
     private boolean mIsHeader;
     private String mIconName;
+    private boolean mIsEmpty;
 
-    private Schedule(){}
+    public Schedule(){
+        setEmpty(true);
+    }
 
     public Schedule(Day day){
         setDay(day);
         setHeader(true);
+        setEmpty(false);
     }
 
     public Schedule(DataSnapshot itemSnapshot){
+        setEmpty(false);
         setId(itemSnapshot.child(DB_KEY_ID).getValue(Integer.class));
         setName(itemSnapshot.child(DB_KEY_NAME).getValue(String.class));
         setDay(itemSnapshot.child(DB_KEY_DAY).getValue(String.class));
@@ -89,6 +94,10 @@ public class Schedule implements Parcelable {
         return mIconName;
     }
 
+    public boolean isEmpty() {
+        return mIsEmpty;
+    }
+
     public void setId(Integer id) {
         mId = id;
     }
@@ -127,6 +136,10 @@ public class Schedule implements Parcelable {
 
     public void setIconName(String iconName) {
         mIconName = iconName;
+    }
+
+    public void setEmpty(boolean empty) {
+        mIsEmpty = empty;
     }
 
     @Override

@@ -27,8 +27,26 @@ import io.smileyjoe.classscheduler.databinding.FragmentAboutBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.ScheduleComparator;
+import io.smileyjoe.classscheduler.utils.LoadingData;
 
 public class AboutFragment extends BaseFirebaseFragment<FragmentAboutBinding> {
+
+    private LoadingData mLoadingData;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        FragmentAboutBinding root = getRoot();
+
+        mLoadingData = LoadingData.init()
+                .add(root.textDescription, 300)
+                .add(root.textName, 25)
+                .add(root.textEmail, 30)
+                .add(root.textPhone, 10)
+                .add(root.textWebsite, 20);
+        mLoadingData.update(true);
+    }
 
     @Override
     protected FragmentAboutBinding inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState) {
@@ -42,6 +60,7 @@ public class AboutFragment extends BaseFirebaseFragment<FragmentAboutBinding> {
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
+        mLoadingData.update(false);
         About about = new About(snapshot);
 
         FragmentAboutBinding root = getRoot();

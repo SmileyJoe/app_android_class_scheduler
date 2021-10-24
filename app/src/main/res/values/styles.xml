@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:textColorSecondary">@color/color_on_primary</item>
+        <item name="android:textColorSecondary">@color/colorOnPrimary</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="materialButtonStyle">@style/Button</item>
         <item name="textInputStyle">@style/TextInput</item>
@@ -98,25 +98,21 @@
     <style name="Text.Body.Icon">
         <item name="android:drawablePadding">@dimen/padding_text_icon</item>
         <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
     <style name="Text.Title.Icon">
         <item name="android:drawablePadding">@dimen/padding_text_icon</item>
         <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
     <style name="Text.Heading.Icon">
         <item name="android:drawablePadding">@dimen/padding_text_icon</item>
         <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
     <style name="Text.Caption.Icon">
         <item name="android:drawablePadding">@dimen/padding_text_icon</item>
         <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader</item>
     </style>
 
     <style name="ListItem" parent="@style/Padding.Default">
@@ -125,7 +121,7 @@
 
     <style name="Icon">
         <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader</item>
+        <item name="icon_placeholder">@drawable/anim_loader_circular</item>
     </style>
 
     <style name="Icon.Contrast">
@@ -139,7 +135,7 @@
     </style>
 
     <style name="collapsedTitleTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/color_on_primary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="circleImageView">
