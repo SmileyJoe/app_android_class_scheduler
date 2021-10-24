@@ -18,9 +18,11 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import java.util.Arrays;
 import java.util.List;
 
+import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityLoginBinding;
 import io.smileyjoe.classscheduler.utils.Animation;
 import io.smileyjoe.classscheduler.utils.Animations;
+import io.smileyjoe.classscheduler.utils.Communication;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
@@ -86,7 +88,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             finish();
         } else {
             if (response != null) {
-                Log.d("UserThings", "Sign in failed: " + response.getError().getMessage());
+                Communication.error(getView().getRoot(), R.string.error_login);
             } else {
                 // Do nothing, this means the user cancelled login
             }

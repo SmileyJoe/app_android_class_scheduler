@@ -16,8 +16,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountEditBinding;
 import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.Communication;
 
 public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEditBinding> implements DatabaseReference.CompletionListener {
 
@@ -64,9 +66,10 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
     @Override
     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
         if(error == null){
+            success(R.string.success_account_update);
             Navigation.findNavController(getRoot().getRoot()).popBackStack();
         } else {
-            Log.d("UserThings", "Error: " + error.getMessage());
+            error(R.string.error_account_update);
         }
     }
 

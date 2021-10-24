@@ -25,4 +25,10 @@
     <string name="button_save">Save</string>
     <string name="text_username">Username</string>
     <string name="text_phone_number">Phone number</string>
+    <string name="success_logout">You have logged out successfully.</string>
+    <string name="success_login">You have logged in successfully.</string>
+    <string name="error_account_update">Something went wrong updating your account.</string>
+    <string name="ok">OK</string>
+    <string name="success_account_update">Account update successfully.</string>
+    <string name="error_login">Something went wrong logging you in.</string>
 </resources>

@@ -70,9 +70,10 @@ import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.AccountFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.classscheduler.utils.NavigationUtil;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationBarView.OnItemSelectedListener, ClassFragment.Listener, AccountFragment.Listener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements Communication.Listener, NavigationBarView.OnItemSelectedListener, ClassFragment.Listener, AccountFragment.Listener {
 
     protected NavController mNavController;
 
@@ -96,6 +97,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
+                        success(R.string.success_login);
                         // TODO: this should load to the item that redirected to the login, not hard coded to this //
                         getView().bottomNavigationMain.setSelectedItemId(R.id.account);
                     }
@@ -137,6 +139,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     @Override
     public void onLogout() {
+        success(R.string.success_logout);
         mNavController.navigate(R.id.classes);
     }
 
@@ -152,5 +155,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         } else {
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
         }
+    }
+
+    @Override
+    public void success(int messageResId) {
+        Communication.success(getView().bottomNavigationMain, messageResId);
+    }
+
+    @Override
+    public void error(int messageResId) {
+        error(getString(messageResId));
+    }
+
+    @Override
+    public void error(String message) {
+        Communication.error(getView().bottomNavigationMain, message);
     }
 }

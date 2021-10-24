@@ -15,8 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import io.smileyjoe.classscheduler.databinding.FragmentAboutBinding;
 import io.smileyjoe.classscheduler.object.About;
+import io.smileyjoe.classscheduler.utils.Communication;
 
-public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragment implements ValueEventListener {
+public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragment implements ValueEventListener, Communication.Listener {
 
     private T mView;
 
@@ -56,5 +57,24 @@ public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragme
 
     protected T getRoot(){
         return mView;
+    }
+
+    @Override
+    public void success(int messageResId) {
+        if(getActivity() instanceof Communication.Listener){
+            ((Communication.Listener) getActivity()).success(messageResId);
+        }
+    }
+
+    @Override
+    public void error(int messageResId) {
+        error(getString(messageResId));
+    }
+
+    @Override
+    public void error(String message) {
+        if(getActivity() instanceof Communication.Listener){
+            ((Communication.Listener) getActivity()).error(message);
+        }
     }
 }
