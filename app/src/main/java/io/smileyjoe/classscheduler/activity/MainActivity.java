@@ -1,7 +1,10 @@
 package io.smileyjoe.classscheduler.activity;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -10,7 +13,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavArgument;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -19,6 +28,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -40,6 +50,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
@@ -49,6 +60,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
@@ -58,12 +70,13 @@ import io.smileyjoe.classscheduler.fragment.AboutFragment;
 import io.smileyjoe.classscheduler.fragment.AccountFragment;
 import io.smileyjoe.classscheduler.fragment.ClassFragment;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.utils.NavigationUtil;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements BottomNavigationView.OnNavigationItemSelectedListener, ClassFragment.Listener, AccountFragment.Listener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationBarView.OnItemSelectedListener, ClassFragment.Listener, AccountFragment.Listener {
 
-    protected static final String FRAGMENT_CLASS = "classes";
-    protected static final String FRAGMENT_ABOUT = "about";
-    protected static final String FRAGMENT_ACCOUNT = "account";
+    protected NavController mNavController;
+
+    private ActivityResultLauncher<Intent> mLoginLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +87,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
         super.onCreate(savedInstanceState);
         setSupportActionBar(getView().toolbar);
 
+        setupActivityResults();
         setupBottomNav();
+    }
 
-        if(savedInstanceState == null) {
-            getView().bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
-        }
+    private void setupActivityResults(){
+        mLoginLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // TODO: this should load to the item that redirected to the login, not hard coded to this //
+                        getView().bottomNavigationMain.setSelectedItemId(R.id.account);
+                    }
+                });
     }
 
     @Override
@@ -87,54 +108,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
     }
 
     private void setupBottomNav(){
-        getView().bottomNavigationMain.setOnNavigationItemSelectedListener(this);
+        NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_main);
+        mNavController = host.getNavController();
+
+        NavigationUtil.setupWithNavController(getView().bottomNavigationMain, mNavController, this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_about:
-                return changeFragment(FRAGMENT_ABOUT);
-            case R.id.menu_classes:
-                return changeFragment(FRAGMENT_CLASS);
-            case R.id.menu_account:
-                return changeFragment(FRAGMENT_ACCOUNT);
-            default:
-                return false;
-        }
-    }
+        NavDestination destination = mNavController.getGraph().findNode(item.getItemId());
 
-    protected Fragment getNewFragment(String tag){
-        switch (tag){
-            case FRAGMENT_ABOUT:
-                return new AboutFragment();
-            case FRAGMENT_CLASS:
-                return new ClassFragment();
-            case FRAGMENT_ACCOUNT:
-                return new AccountFragment();
-            default:
-                return null;
-        }
-    }
+        if(destination != null) {
+            Map<String, NavArgument> args = destination.getArguments();
 
-    protected boolean changeFragment(String tag){
-        if(FirebaseAuth.getInstance().getCurrentUser() == null && tag.equals(FRAGMENT_ACCOUNT)){
-            startActivity(LoginActivity.getIntent(getBaseContext()));
-            return false;
-        }
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+            if (args.containsKey("requires_login")) {
+                NavArgument arg = args.get("requires_login");
+                boolean requiresLogin = (boolean) arg.getDefaultValue();
 
-        if(fragment == null){
-            fragment = getNewFragment(tag);
-        }
-
-        if(fragment != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container_main, fragment, tag)
-                    .commit();
-
-            getSupportFragmentManager().executePendingTransactions();
+                if (requiresLogin && (FirebaseAuth.getInstance().getCurrentUser() == null)) {
+                    mLoginLauncher.launch(LoginActivity.getIntent(getBaseContext()));
+                    return false;
+                }
+            }
         }
 
         return true;
@@ -142,7 +137,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
 
     @Override
     public void onLogout() {
-        getView().bottomNavigationMain.setSelectedItemId(R.id.menu_classes);
+        mNavController.navigate(R.id.classes);
     }
 
     @Override
@@ -157,6 +152,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements B
         } else {
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
         }
-
     }
 }

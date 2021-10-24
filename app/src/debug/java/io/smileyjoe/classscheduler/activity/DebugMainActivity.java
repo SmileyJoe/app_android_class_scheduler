@@ -17,27 +17,27 @@ public class DebugMainActivity extends MainActivity {
     @Override
     protected void onNightModeChanged(int mode) {
         super.onNightModeChanged(mode);
-        getView().bottomNavigationMain.setSelectedItemId(R.id.menu_style);
+        mNavController.navigate(R.id.style);
     }
 
-    @Override
-    protected Fragment getNewFragment(String tag) {
-        switch (tag){
-            case FRAGMENT_STYLE:
-                return new StyleFragment();
-            default:
-                return super.getNewFragment(tag);
-        }
-    }
+//    @Override
+//    protected Fragment getNewFragment(String tag) {
+//        switch (tag){
+//            case FRAGMENT_STYLE:
+//                return new StyleFragment();
+//            default:
+//                return super.getNewFragment(tag);
+//        }
+//    }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_style:
-                changeFragment(FRAGMENT_STYLE);
-                return true;
-            default:
-                return super.onNavigationItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.menu_style:
+//                changeFragment(FRAGMENT_STYLE);
+//                return true;
+//            default:
+//                return super.onNavigationItemSelected(item);
+//        }
+//    }
 }
