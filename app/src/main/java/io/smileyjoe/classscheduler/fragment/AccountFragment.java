@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,10 +20,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
+import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.activity.LoginActivity;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountBinding;
 import io.smileyjoe.classscheduler.object.About;
+import io.smileyjoe.classscheduler.object.User;
 
 public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding> {
 
@@ -40,21 +44,31 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
         super.onViewCreated(view, savedInstanceState);
 
         getRoot().buttonSignOut.setOnClickListener(v -> signOut());
-    }
-
-    @Override
-    protected String getDbName() {
-        return About.DB_NAME;
+        getRoot().buttonEdit.setOnClickListener(v -> Navigation.findNavController(getRoot().getRoot()).navigate(R.id.action_account_to_edit));
     }
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
+        User user = new User(snapshot);
 
+        if(getRoot() != null) {
+            getRoot().textUsername.setContent(user.getUsername());
+            getRoot().textPhoneNumber.setContent(user.getPhoneNumber());
+        }
     }
 
     @Override
     public void onCancelled(@NonNull DatabaseError error) {
 
+    }
+
+    @Override
+    protected void setDataListener() {
+        FirebaseDatabase
+                .getInstance()
+                .getReference(User.DB_NAME)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addValueEventListener(this);
     }
 
     private void signOut(){

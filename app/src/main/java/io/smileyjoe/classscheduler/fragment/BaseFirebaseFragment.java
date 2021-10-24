@@ -21,15 +21,13 @@ public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragme
     private T mView;
 
     protected abstract T inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState);
-    protected abstract String getDbName();
 
     @Override
     public View onCreateView (LayoutInflater inflater,
                               ViewGroup container,
                               Bundle savedInstanceState) {
         mView = inflate(inflater, container, false);
-        View view = mView.getRoot();
-        return view;
+        return mView.getRoot();
     }
 
     @Override
@@ -45,11 +43,15 @@ public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragme
         mView = null;
     }
 
-    private void setDataListener(){
+    protected void setDataListener(){
         FirebaseDatabase
                 .getInstance()
                 .getReference(getDbName())
                 .addValueEventListener(this);
+    }
+
+    protected String getDbName(){
+        return "";
     }
 
     protected T getRoot(){

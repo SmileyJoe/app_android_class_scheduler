@@ -7,6 +7,35 @@
     android:layout_height="match_parent"
     style="@style/Padding.Default">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_profile"
+        app:layout_constraintBottom_toTopOf="@+id/text_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_account"
+        style="@style/Icon.Profile.Account"/>
+
+    <io.smileyjoe.classscheduler.view.DetailTextView
+        android:id="@+id/text_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/text_username" />
+
+    <io.smileyjoe.classscheduler.view.DetailTextView
+        android:id="@+id/text_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_vertical_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_username"
+        app:title="@string/text_phone_number" />
+
     <Button
         android:id="@+id/button_sign_out"
         android:layout_width="0dp"
@@ -15,4 +44,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.5"/>
+
+    <Button
+        android:id="@+id/button_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_edit"
+        android:layout_marginRight="@dimen/padding_horizontal_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_sign_out"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

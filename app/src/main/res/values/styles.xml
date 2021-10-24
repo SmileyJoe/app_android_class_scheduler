@@ -128,6 +128,16 @@
         <item name="icon_color">@color/colorOnPrimary</item>
     </style>
 
+    <style name="Icon.Profile.Account" parent="">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:background">@drawable/bg_circle_drawable</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="contentPadding">10dp</item>
+        <item name="tint">@color/colorPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/circleImageView</item>
+    </style>
+
     <style name="Icon.Schedule.List" parent="Icon">
         <item name="android:layout_width">@dimen/icon_size_schedule_list</item>
         <item name="android:layout_height">@dimen/icon_size_schedule_list</item>

@@ -65,11 +65,13 @@ public class AboutFragment extends BaseFirebaseFragment<FragmentAboutBinding> {
 
         FragmentAboutBinding root = getRoot();
 
-        root.textDescription.setText(about.getDescription());
-        root.textName.setText(about.getName());
-        root.textEmail.setText(about.getEmail());
-        root.textPhone.setText(about.getPhone());
-        root.textWebsite.setText(about.getWebsite());
+        if(root != null) {
+            root.textDescription.setText(about.getDescription());
+            root.textName.setText(about.getName());
+            root.textEmail.setText(about.getEmail());
+            root.textPhone.setText(about.getPhone());
+            root.textWebsite.setText(about.getWebsite());
+        }
     }
 
     @Override

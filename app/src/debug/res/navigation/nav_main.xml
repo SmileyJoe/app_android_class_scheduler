@@ -18,8 +18,14 @@
         <argument
             android:name="requires_login"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_account_to_edit"
+            app:destination="@id/account_edit"/>
     </fragment>
     <fragment
         android:id="@+id/style"
         android:name="io.smileyjoe.classscheduler.fragment.StyleFragment"/>
+    <fragment
+        android:id="@+id/account_edit"
+        android:name="io.smileyjoe.classscheduler.fragment.AccountEditFragment"/>
 </navigation>
