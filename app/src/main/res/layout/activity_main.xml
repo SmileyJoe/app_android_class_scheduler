@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/banner"
+                app:layout_constraintTop_toBottomOf="@id/banner_login"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_main"/>
         </androidx.constraintlayout.motion.widget.MotionLayout>
