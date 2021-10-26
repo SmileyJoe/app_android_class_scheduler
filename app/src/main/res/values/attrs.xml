@@ -5,4 +5,10 @@
         <attr name="content" format="reference"/>
         <attr name="transition_prefix" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="Banner">
+        <attr name="message" format="string" />
+        <attr name="button_positive" format="string"/>
+        <attr name="button_negative" format="string"/>
+    </declare-styleable>
 </resources>

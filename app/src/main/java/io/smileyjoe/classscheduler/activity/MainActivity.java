@@ -142,9 +142,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
         success(R.string.success_logout);
         mNavController.navigate(R.id.classes);
     }
-
+boolean showing = false;
     @Override
     public void onScheduleClicked(Schedule schedule, ListRowScheduleBinding view) {
+        if(true){
+            if(!showing) {
+                showBanner();
+                showing = true;
+            } else {
+                hideBanner();
+                showing = false;
+            }
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view.findViewById(R.id.icon_main), "shared_element_container");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
@@ -170,5 +180,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
     @Override
     public void error(String message) {
         Communication.error(getView().bottomNavigationMain, message);
+    }
+
+    public void showBanner(){
+        getView().mainContainer.transitionToEnd();
+    }
+
+    public void hideBanner(){
+        getView().mainContainer.transitionToStart();
     }
 }

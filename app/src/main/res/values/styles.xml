@@ -38,6 +38,11 @@
         <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
     </style>
 
+    <style name="Banner" parent="Padding.Default">
+        <item name="cardElevation">10dp</item>
+
+    </style>
+
     <style name="Margin.Default" parent="">
         <item name="android:layout_marginTop">@dimen/padding_vertical_default</item>
         <item name="android:layout_marginBottom">@dimen/padding_vertical_default</item>
@@ -47,10 +52,12 @@
 
     <style name="Button" parent="Widget.MaterialComponents.Button"></style>
 
-    <style name="Button.Inverse">
+    <style name="Button.Inverse" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/colorOnPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
+    <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog"/>
 
     <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"></style>
 
@@ -81,6 +88,8 @@
     <style name="Text.Heading" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
+    <style name="Text.Dialog" parent="TextAppearance.MaterialComponents.Body1"/>
 
     <style name="Text.Heading.Underline">
         <item name="android:layout_marginBottom">@dimen/padding_vertical_default</item>

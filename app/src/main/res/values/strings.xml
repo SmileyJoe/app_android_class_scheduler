@@ -31,4 +31,6 @@
     <string name="ok">OK</string>
     <string name="success_account_update">Account update successfully.</string>
     <string name="error_login">Something went wrong logging you in.</string>
+    <string name="banner_message_login">Please login to sign up for classes</string>
+    <string name="text_clear">Clear</string>
 </resources>
