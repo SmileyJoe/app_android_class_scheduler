@@ -25,6 +25,7 @@ import java.util.Collections;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.adapter.HeaderItemDecoration;
 import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
+import io.smileyjoe.classscheduler.database.DbSchedule;
 import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentClassBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
@@ -71,7 +72,7 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
 
     @Override
     protected DatabaseReference getDatabaseReference() {
-        return Schedule.getDbReference();
+        return DbSchedule.getDbReference();
     }
 
     @Override
@@ -80,7 +81,7 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
             ArrayList<Schedule> schedules = new ArrayList<>();
 
             for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
-                schedules.add(new Schedule(itemSnapshot));
+                schedules.add(DbSchedule.parse(itemSnapshot));
             }
 
             Collections.sort(schedules, new ScheduleComparator());

@@ -24,6 +24,7 @@ import java.util.Collections;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.adapter.HeaderItemDecoration;
 import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
+import io.smileyjoe.classscheduler.database.DbAbout;
 import io.smileyjoe.classscheduler.databinding.FragmentAboutBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.object.Schedule;
@@ -56,13 +57,13 @@ public class AboutFragment extends BaseFirebaseFragment<FragmentAboutBinding> {
 
     @Override
     protected DatabaseReference getDatabaseReference() {
-        return About.getDbReference();
+        return DbAbout.getDbReference();
     }
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         mLoadingData.update(false);
-        About about = new About(snapshot);
+        About about = DbAbout.parse(snapshot);
 
         FragmentAboutBinding root = getRoot();
 

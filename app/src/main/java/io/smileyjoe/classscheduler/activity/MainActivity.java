@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
 
     @Override
     public void error(String message) {
-        Communication.error(getView().bottomNavigationMain, message, false);
+        Communication.error(getView().bottomNavigationMain, message, true);
     }
 
     public void showLoginBanner(){

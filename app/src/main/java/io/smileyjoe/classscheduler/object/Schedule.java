@@ -13,16 +13,6 @@ import io.smileyjoe.classscheduler.utils.Utils;
 
 public class Schedule implements Parcelable {
 
-    private static final String DB_NAME = "schedule";
-    private static final String DB_KEY_ID = "id";
-    private static final String DB_KEY_NAME = "name";
-    private static final String DB_KEY_DAY = "day";
-    private static final String DB_KEY_START = "start";
-    private static final String DB_KEY_END = "end";
-    private static final String DB_KEY_DESCRIPTION = "description";
-    private static final String DB_KEY_DETAILS = "details";
-    private static final String DB_KEY_ICON = "icon";
-
     private Integer mId;
     private String mName;
     private String mDescription;
@@ -42,19 +32,6 @@ public class Schedule implements Parcelable {
         setDay(day);
         setHeader(true);
         setEmpty(false);
-    }
-
-    public Schedule(DataSnapshot itemSnapshot){
-        setEmpty(false);
-        setId(itemSnapshot.child(DB_KEY_ID).getValue(Integer.class));
-        setName(itemSnapshot.child(DB_KEY_NAME).getValue(String.class));
-        setDay(itemSnapshot.child(DB_KEY_DAY).getValue(String.class));
-        setTimeStart(itemSnapshot.child(DB_KEY_START).getValue(String.class));
-        setTimeEnd(itemSnapshot.child(DB_KEY_END).getValue(String.class));
-        setDescription(itemSnapshot.child(DB_KEY_DESCRIPTION).getValue(String.class));
-        setDetails(itemSnapshot.child(DB_KEY_DETAILS).getValue(String.class));
-        setIconName(itemSnapshot.child(DB_KEY_ICON).getValue(String.class));
-        setHeader(false);
     }
 
     public Integer getId() {
@@ -143,10 +120,6 @@ public class Schedule implements Parcelable {
 
     public void setEmpty(boolean empty) {
         mIsEmpty = empty;
-    }
-
-    public static DatabaseReference getDbReference(){
-        return Utils.getDb().getReference(DB_NAME);
     }
 
     @Override

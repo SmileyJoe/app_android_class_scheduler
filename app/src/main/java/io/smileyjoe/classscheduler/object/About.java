@@ -10,13 +10,6 @@ import io.smileyjoe.classscheduler.utils.Utils;
 
 public class About implements Parcelable {
 
-    private static final String DB_NAME = "about";
-    private static final String DB_KEY_DESCRIPTION = "description";
-    private static final String DB_KEY_EMAIL = "email";
-    private static final String DB_KEY_NAME = "name";
-    private static final String DB_KEY_PHONE = "phone";
-    private static final String DB_KEY_WEBSITE = "website";
-
     private String mDescription;
     private String mEmail;
     private String mName;
@@ -24,14 +17,6 @@ public class About implements Parcelable {
     private String mWebsite;
 
     public About() {
-    }
-
-    public About(DataSnapshot itemSnapshot){
-        setDescription(itemSnapshot.child(DB_KEY_DESCRIPTION).getValue(String.class));
-        setEmail(itemSnapshot.child(DB_KEY_EMAIL).getValue(String.class));
-        setName(itemSnapshot.child(DB_KEY_NAME).getValue(String.class));
-        setPhone(itemSnapshot.child(DB_KEY_PHONE).getValue(String.class));
-        setWebsite(itemSnapshot.child(DB_KEY_WEBSITE).getValue(String.class));
     }
 
     public String getDescription() {
@@ -72,10 +57,6 @@ public class About implements Parcelable {
 
     public void setWebsite(String website) {
         mWebsite = website;
-    }
-
-    public static DatabaseReference getDbReference(){
-        return Utils.getDb().getReference(DB_NAME);
     }
 
     @Override
