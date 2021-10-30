@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import io.smileyjoe.classscheduler.R;
@@ -27,6 +28,7 @@ import io.smileyjoe.classscheduler.activity.LoginActivity;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.Utils;
 
 public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding> {
 
@@ -63,16 +65,12 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
     }
 
     @Override
-    protected void setDataListener() {
-        FirebaseDatabase
-                .getInstance()
-                .getReference(User.DB_NAME)
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addValueEventListener(this);
+    protected DatabaseReference getDatabaseReference() {
+        return User.getDbReference();
     }
 
     private void signOut(){
-        AuthUI.getInstance()
+        Utils.getAuth()
                 .signOut(getContext())
                 .addOnCompleteListener(task -> {
                     if(getActivity() instanceof Listener){

@@ -32,10 +32,13 @@ import io.smileyjoe.classscheduler.utils.LoadingLinearLayoutManager;
 
 public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener, ScheduleAdapter.DataListener{
 
-    public interface Listener extends ScheduleAdapter.Listener{}
+    public interface Listener extends ScheduleAdapter.Listener{
+        void onClassDataLoaded();
+    }
 
     private ScheduleAdapter mAdapter;
     private Listener mListener;
+    private boolean mFirstLoad = true;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -61,8 +64,8 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
     }
 
     @Override
-    protected String getDbName() {
-        return Schedule.DB_NAME;
+    protected DatabaseReference getDatabaseReference() {
+        return Schedule.getDbReference();
     }
 
     @Override
@@ -77,6 +80,14 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
             Collections.sort(schedules, new ScheduleComparator());
 
             mAdapter.setItems(schedules);
+        }
+
+        if(mFirstLoad){
+            mFirstLoad = false;
+
+            if(mListener != null){
+                mListener.onClassDataLoaded();
+            }
         }
     }
 

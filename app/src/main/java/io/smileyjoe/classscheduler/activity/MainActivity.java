@@ -89,6 +89,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
         setSupportActionBar(getView().toolbar);
 
         setupActivityResults();
+        setupViews();
         setupBottomNav();
     }
 
@@ -100,6 +101,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
                         success(R.string.success_login);
                         // TODO: this should load to the item that redirected to the login, not hard coded to this //
                         getView().bottomNavigationMain.setSelectedItemId(R.id.account);
+                        hideLoginBanner();
                     }
                 });
     }
@@ -109,10 +111,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
+    private void setupViews(){
+        getView().bannerLogin.setButtonPositive(v -> mLoginLauncher.launch(LoginActivity.getIntent(getBaseContext())));
+        getView().bannerLogin.setButtonNegative(v -> hideLoginBanner());
+    }
+
     private void setupBottomNav(){
         NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_main);
         mNavController = host.getNavController();
 
+        mNavController.addOnDestinationChangedListener((controller, destination, arguments) -> setTitle(destination.getLabel()));
         NavigationUtil.setupWithNavController(getView().bottomNavigationMain, mNavController, this);
     }
 
@@ -142,19 +150,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
         success(R.string.success_logout);
         mNavController.navigate(R.id.classes);
     }
-boolean showing = false;
+
     @Override
     public void onScheduleClicked(Schedule schedule, ListRowScheduleBinding view) {
-        if(true){
-            if(!showing) {
-                showBanner();
-                showing = true;
-            } else {
-                hideBanner();
-                showing = false;
-            }
-            return;
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view.findViewById(R.id.icon_main), "shared_element_container");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
@@ -164,6 +162,13 @@ boolean showing = false;
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule), options.toBundle());
         } else {
             startActivity(ClassDetailsActivity.getIntent(getBaseContext(), schedule));
+        }
+    }
+
+    @Override
+    public void onClassDataLoaded() {
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            showLoginBanner();
         }
     }
 
@@ -182,11 +187,11 @@ boolean showing = false;
         Communication.error(getView().bottomNavigationMain, message);
     }
 
-    public void showBanner(){
+    public void showLoginBanner(){
         getView().mainContainer.transitionToEnd();
     }
 
-    public void hideBanner(){
+    public void hideLoginBanner(){
         getView().mainContainer.transitionToStart();
     }
 }

@@ -14,6 +14,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,7 @@ import io.smileyjoe.classscheduler.databinding.ActivityLoginBinding;
 import io.smileyjoe.classscheduler.utils.Animation;
 import io.smileyjoe.classscheduler.utils.Animations;
 import io.smileyjoe.classscheduler.utils.Communication;
+import io.smileyjoe.classscheduler.utils.Utils;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
@@ -73,10 +75,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        Intent signInIntent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build();
+        Intent signInIntent = Utils.getAuth().createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build();
 
         mSignInLauncher.launch(signInIntent);
     }

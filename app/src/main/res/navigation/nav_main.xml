@@ -8,18 +8,25 @@
 
     <fragment
         android:id="@+id/classes"
-        android:name="io.smileyjoe.classscheduler.fragment.ClassFragment"/>
+        android:name="io.smileyjoe.classscheduler.fragment.ClassFragment"
+        android:label="@string/menu_classes"/>
     <fragment
         android:id="@+id/about"
-        android:name="io.smileyjoe.classscheduler.fragment.AboutFragment"/>
+        android:name="io.smileyjoe.classscheduler.fragment.AboutFragment"
+        android:label="@string/menu_about"/>
     <fragment
         android:id="@+id/account"
-        android:name="io.smileyjoe.classscheduler.fragment.AccountFragment">
+        android:name="io.smileyjoe.classscheduler.fragment.AccountFragment"
+        android:label="@string/menu_account">
         <argument
             android:name="requires_login"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_account_to_edit"
+            app:destination="@id/account_edit"/>
     </fragment>
     <fragment
         android:id="@+id/account_edit"
-        android:name="io.smileyjoe.classscheduler.fragment.AccountEditFragment"/>
+        android:name="io.smileyjoe.classscheduler.fragment.AccountEditFragment"
+        android:label="@string/menu_account_edit"/>
 </navigation>

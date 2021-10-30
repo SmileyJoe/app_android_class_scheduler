@@ -4,10 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+
+import io.smileyjoe.classscheduler.utils.Utils;
 
 public class About implements Parcelable {
 
-    public static final String DB_NAME = "about";
+    private static final String DB_NAME = "about";
     private static final String DB_KEY_DESCRIPTION = "description";
     private static final String DB_KEY_EMAIL = "email";
     private static final String DB_KEY_NAME = "name";
@@ -69,6 +72,10 @@ public class About implements Parcelable {
 
     public void setWebsite(String website) {
         mWebsite = website;
+    }
+
+    public static DatabaseReference getDbReference(){
+        return Utils.getDb().getReference(DB_NAME);
     }
 
     @Override

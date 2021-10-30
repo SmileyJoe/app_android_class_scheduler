@@ -1,13 +1,17 @@
 package io.smileyjoe.classscheduler.object;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import io.smileyjoe.classscheduler.utils.Utils;
+
 public class User {
 
-    public static final String DB_NAME = "user";
+    private static final String DB_NAME = "user";
     private static final String DB_KEY_USERNAME = "username";
     private static final String DB_KEY_PHONE_NUMBER = "phone_number";
 
@@ -19,12 +23,12 @@ public class User {
         setPhoneNumber(itemSnapshot.child(DB_KEY_PHONE_NUMBER).getValue(String.class));
     }
 
-    public void save(DatabaseReference dbReference, DatabaseReference.CompletionListener listener){
+    public void save(DatabaseReference.CompletionListener listener){
         HashMap<String, Object> data = new HashMap<>();
         data.put(DB_KEY_USERNAME, getUsername());
         data.put(DB_KEY_PHONE_NUMBER, getPhoneNumber());
 
-        dbReference.updateChildren(data, listener);
+        getDbReference().updateChildren(data, listener);
     }
 
     public String getUsername() {
@@ -41,6 +45,11 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         mPhoneNumber = phoneNumber;
+    }
+
+    public static DatabaseReference getDbReference(){
+        return Utils.getDb().getReference(DB_NAME)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     @Override

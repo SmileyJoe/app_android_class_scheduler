@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -54,8 +55,8 @@ public class AboutFragment extends BaseFirebaseFragment<FragmentAboutBinding> {
     }
 
     @Override
-    protected String getDbName() {
-        return About.DB_NAME;
+    protected DatabaseReference getDatabaseReference() {
+        return About.getDbReference();
     }
 
     @Override

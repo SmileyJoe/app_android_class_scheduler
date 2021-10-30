@@ -4,13 +4,16 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.utils.Utils;
 
 public class Schedule implements Parcelable {
 
-    public static final String DB_NAME = "schedule";
+    private static final String DB_NAME = "schedule";
     private static final String DB_KEY_ID = "id";
     private static final String DB_KEY_NAME = "name";
     private static final String DB_KEY_DAY = "day";
@@ -140,6 +143,10 @@ public class Schedule implements Parcelable {
 
     public void setEmpty(boolean empty) {
         mIsEmpty = empty;
+    }
+
+    public static DatabaseReference getDbReference(){
+        return Utils.getDb().getReference(DB_NAME);
     }
 
     @Override

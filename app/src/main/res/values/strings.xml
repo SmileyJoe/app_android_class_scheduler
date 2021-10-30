@@ -33,4 +33,8 @@
     <string name="error_login">Something went wrong logging you in.</string>
     <string name="banner_message_login">Please login to sign up for classes</string>
     <string name="text_clear">Clear</string>
+    <string name="text_register">Register</string>
+    <string name="text_attending">Attending</string>
+    <string name="text_dismiss">Dismiss</string>
+    <string name="menu_account_edit">Edit</string>
 </resources>

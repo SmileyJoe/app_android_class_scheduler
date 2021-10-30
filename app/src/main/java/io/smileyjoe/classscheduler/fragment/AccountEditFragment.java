@@ -53,14 +53,14 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
     }
 
     @Override
-    protected void setDataListener() {
-        getDbReference().addValueEventListener(this);
+    protected DatabaseReference getDatabaseReference() {
+        return User.getDbReference();
     }
 
     private void save(){
         mUser.setUsername(getRoot().inputUsername.getEditText().getText().toString());
         mUser.setPhoneNumber(getRoot().inputPhoneNumber.getEditText().getText().toString());
-        mUser.save(getDbReference(), this);
+        mUser.save( this);
     }
 
     @Override
@@ -71,12 +71,5 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
         } else {
             error(R.string.error_account_update);
         }
-    }
-
-    private DatabaseReference getDbReference(){
-        return FirebaseDatabase
-                .getInstance()
-                .getReference(User.DB_NAME)
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 }

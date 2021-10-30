@@ -10,18 +10,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import io.smileyjoe.classscheduler.databinding.FragmentAboutBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.utils.Communication;
+import io.smileyjoe.classscheduler.utils.Utils;
 
 public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragment implements ValueEventListener, Communication.Listener {
 
     private T mView;
 
     protected abstract T inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState);
+    protected abstract DatabaseReference getDatabaseReference();
 
     @Override
     public View onCreateView (LayoutInflater inflater,
@@ -35,24 +38,13 @@ public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragme
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setDataListener();
+        getDatabaseReference().addValueEventListener(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mView = null;
-    }
-
-    protected void setDataListener(){
-        FirebaseDatabase
-                .getInstance()
-                .getReference(getDbName())
-                .addValueEventListener(this);
-    }
-
-    protected String getDbName(){
-        return "";
     }
 
     protected T getRoot(){

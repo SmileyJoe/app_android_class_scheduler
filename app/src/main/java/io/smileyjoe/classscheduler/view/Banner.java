@@ -65,12 +65,20 @@ public class Banner extends MaterialCardView {
         setupButton(mView.buttonPositive, text, listener);
     }
 
+    public void setButtonPositive(OnClickListener listener){
+        mView.buttonPositive.setOnClickListener(listener);
+    }
+
     public void setButtonNegative(@StringRes int text, OnClickListener listener){
         setButtonNegative(getContext().getString(text), listener);
     }
 
     public void setButtonNegative(String text, OnClickListener listener){
         setupButton(mView.buttonNegative, text, listener);
+    }
+
+    public void setButtonNegative(OnClickListener listener){
+        mView.buttonNegative.setOnClickListener(listener);
     }
 
     private void setupButton(Button button, String text, OnClickListener listener){
