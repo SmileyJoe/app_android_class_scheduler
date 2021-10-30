@@ -41,4 +41,10 @@
     <string name="error_generic">Something went wrong, please try again later.</string>
     <string name="text_success">Success</string>
     <string name="text_registered">Registered</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_attend">Attend</string>
+    <string name="success_unregister">You have been unregistered from this class</string>
+    <string name="success_register">You have been registered for this class</string>
+    <string name="success_cancel_attending">Thank you for letting us know you are no longer attending.</string>
+    <string name="success_attending">Thanks for letting us know, we will see you there.</string>
 </resources>

@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             finish();
         } else {
             if (response != null) {
-                Communication.error(getView().getRoot(), R.string.error_login);
+                Communication.error(getView().getRoot(), R.string.error_login, false);
             } else {
                 // Do nothing, this means the user cancelled login
             }

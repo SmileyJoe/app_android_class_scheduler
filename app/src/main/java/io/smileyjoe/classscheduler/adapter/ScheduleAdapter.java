@@ -106,6 +106,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setItems(ArrayList<Schedule> schedules){
+        setLoading(false);
         mSchedules = new ArrayList<>();
 
         if(schedules != null && schedules.size() > 0) {
@@ -122,7 +123,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
-        setLoading(false);
         notifyDataSetChanged();
     }
 

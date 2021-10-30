@@ -51,7 +51,8 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         mLoadingData = LoadingData.init()
                 .add(mView.textName, 24)
                 .add(mView.textDescription, 100)
-                .add(mView.textTime, 16);
+                .add(mView.textTime, 16)
+                .add(mView.textStatus, 20);
     }
 
     public void onBind(Schedule schedule, User user){

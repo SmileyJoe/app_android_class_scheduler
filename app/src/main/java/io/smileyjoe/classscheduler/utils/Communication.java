@@ -16,21 +16,30 @@ public class Communication {
         void error(String message);
     }
 
-    public static void success(View view, @StringRes int messageResId){
-        success(view, view.getContext().getString(messageResId));
+    public static void success(View view, @StringRes int messageResId, boolean anchor){
+        success(view, view.getContext().getString(messageResId), anchor);
     }
 
-    public static void success(View view, String message){
-        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).setAnchorView(view).show();
+    public static void success(View view, String message, boolean anchor){
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+
+        if(anchor) {
+            snackbar.setAnchorView(view);
+        }
+
+        snackbar.show();
     }
 
-    public static void error(View view, @StringRes int messageResId){
-        error(view, view.getContext().getString(messageResId));
+    public static void error(View view, @StringRes int messageResId, boolean anchor){
+        error(view, view.getContext().getString(messageResId), anchor);
     }
 
-    public static void error(View view, String message){
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
-                .setAnchorView(view);
+    public static void error(View view, String message, boolean anchor){
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+
+        if(anchor) {
+            snackbar.setAnchorView(view);
+        }
 
         snackbar.setAction(R.string.ok, v -> snackbar.dismiss());
         snackbar.show();

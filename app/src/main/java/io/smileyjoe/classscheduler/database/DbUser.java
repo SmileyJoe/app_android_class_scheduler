@@ -34,26 +34,15 @@ public class DbUser {
         user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
         user.setPhoneNumber(itemSnapshot.child(DB_KEY_PHONE_NUMBER).getValue(String.class));
 
-        GenericTypeIndicator<ArrayList<Integer>> t = new GenericTypeIndicator<ArrayList<Integer>>(){};
+        GenericTypeIndicator<ArrayList<Integer>> type = new GenericTypeIndicator<ArrayList<Integer>>(){};
 
-        user.setRegisteredIds(itemSnapshot.child(DB_KEY_REGISTERED_IDS).getValue(t));
+        user.setRegisteredIds(itemSnapshot.child(DB_KEY_REGISTERED_IDS).getValue(type));
+        user.setAttendingIds(itemSnapshot.child(DB_KEY_ATTENDING_IDS).getValue(type));
         return user;
     }
 
     public static void updateProfile(User user, DatabaseReference.CompletionListener listener){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put(DB_KEY_USERNAME, user.getUsername());
-        data.put(DB_KEY_PHONE_NUMBER, user.getPhoneNumber());
-        getDbReference().updateChildren(data, listener);
-    }
-
-    public static void save(User user, DatabaseReference.CompletionListener listener){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put(DB_KEY_USERNAME, user.getUsername());
-        data.put(DB_KEY_PHONE_NUMBER, user.getPhoneNumber());
-        data.put(DB_KEY_ATTENDING_IDS, user.getAttendingIds());
-
-        getDbReference().updateChildren(data, listener);
+        Updater.getInstance().profile(user).update(listener);
     }
 
     public static void unregister(User user, Integer id, DatabaseReference.CompletionListener listener){
@@ -61,7 +50,15 @@ public class DbUser {
             boolean removed = user.removeRegisteredId(id);
 
             if(removed) {
-                updateRegistered(user, listener);
+                Updater updater = new Updater();
+                updater.registered(user.getRegisteredIds());
+
+                if(user.isAttending(id)){
+                    user.removingAttendingId(id);
+                    updater.attending(user.getAttendingIds());
+                }
+
+                updater.update(listener);
             }
         }
     }
@@ -71,15 +68,37 @@ public class DbUser {
             boolean added = user.addRegisteredId(id);
 
             if(added) {
-                updateRegistered(user, listener);
+                Updater.getInstance().registered(user.getRegisteredIds()).update(listener);
             }
         }
     }
 
-    private static void updateRegistered(User user, DatabaseReference.CompletionListener listener){
-        HashMap<String, Object> data = new HashMap<>();
-        data.put(DB_KEY_REGISTERED_IDS, user.getRegisteredIds());
-        getDbReference().updateChildren(data, listener);
+    public static void cancel(User user, Integer id, DatabaseReference.CompletionListener listener){
+        if(user != null) {
+            boolean removed = user.removingAttendingId(id);
+
+            if(removed) {
+                Updater.getInstance().attending(user.getAttendingIds()).update(listener);
+            }
+        }
+    }
+
+    public static void attend(User user, Integer id, DatabaseReference.CompletionListener listener){
+        if(user != null) {
+            boolean added = user.addAttendingId(id);
+
+            if(added) {
+                Updater updater = new Updater();
+                updater.attending(user.getAttendingIds());
+
+                if(!user.isRegistered(id)){
+                    user.addRegisteredId(id);
+                    updater.registered(user.getRegisteredIds());
+                }
+
+                updater.update(listener);
+            }
+        }
     }
 
     public static DatabaseReference getDbReference(){
@@ -105,5 +124,36 @@ public class DbUser {
 
     public static boolean isLoggedIn(){
         return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    private static class Updater{
+        HashMap<String, Object> mData = new HashMap<>();
+
+        public Updater() {
+        }
+
+        public static Updater getInstance(){
+            return new Updater();
+        }
+
+        public Updater registered(ArrayList<Integer> ids){
+            mData.put(DB_KEY_REGISTERED_IDS, ids);
+            return this;
+        }
+
+        public Updater attending(ArrayList<Integer> ids){
+            mData.put(DB_KEY_ATTENDING_IDS, ids);
+            return this;
+        }
+
+        public Updater profile(User user){
+            mData.put(DB_KEY_USERNAME, user.getUsername());
+            mData.put(DB_KEY_PHONE_NUMBER, user.getPhoneNumber());
+            return this;
+        }
+
+        public void update(DatabaseReference.CompletionListener listener){
+            getDbReference().updateChildren(mData, listener);
+        }
     }
 }

@@ -3,6 +3,7 @@ package io.smileyjoe.classscheduler.activity;
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -83,6 +84,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
             DbUser.getDbReference(user -> {
                 mUser = user;
                 handleRegisterButton();
+                handleAttendingButton();
             });
         } else {
             getView().buttonWrapper.setVisibility(View.GONE);
@@ -136,33 +138,49 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
     private void handleRegisterButton(){
         if(mUser.isRegistered(mSchedule.getId())){
             getView().buttonRegister.setText(R.string.text_unregister);
-            getView().buttonRegister.setOnClickListener(v -> DbUser.unregister(mUser, mSchedule.getId(), new UpdateComplete()));
+            getView().buttonRegister.setOnClickListener(v -> DbUser.unregister(mUser, mSchedule.getId(), new UpdateComplete(R.string.success_unregister)));
         } else {
             getView().buttonRegister.setText(R.string.text_register);
-            getView().buttonRegister.setOnClickListener(v -> DbUser.register(mUser, mSchedule.getId(), new UpdateComplete()));
+            getView().buttonRegister.setOnClickListener(v -> DbUser.register(mUser, mSchedule.getId(), new UpdateComplete(R.string.success_register)));
+        }
+    }
+
+    private void handleAttendingButton(){
+        if(mUser.isAttending(mSchedule.getId())){
+            getView().buttonAttending.setText(R.string.text_cancel);
+            getView().buttonAttending.setOnClickListener(v -> DbUser.cancel(mUser, mSchedule.getId(), new UpdateComplete(R.string.success_cancel_attending)));
+        } else {
+            getView().buttonAttending.setText(R.string.text_attend);
+            getView().buttonAttending.setOnClickListener(v -> DbUser.attend(mUser, mSchedule.getId(), new UpdateComplete(R.string.success_attending)));
         }
     }
 
     @Override
     public void success(int messageResId) {
-        Communication.success(getView().getRoot(), messageResId);
+        Communication.success(getView().getRoot(), messageResId, false);
     }
 
     @Override
     public void error(int messageResId) {
-        Communication.success(getView().getRoot(), messageResId);
+        error(getString(messageResId));
     }
 
     @Override
     public void error(String message) {
-        Communication.success(getView().getRoot(), message);
+        Communication.success(getView().getRoot(), message, false);
     }
 
     private class UpdateComplete implements DatabaseReference.CompletionListener{
+        @StringRes int mMessageSuccess;
+
+        public UpdateComplete(@StringRes int messageSuccess) {
+            mMessageSuccess = messageSuccess;
+        }
+
         @Override
         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
             if(error == null){
-                success(R.string.text_success);
+                success(mMessageSuccess);
             } else {
                 error(R.string.error_generic);
             }

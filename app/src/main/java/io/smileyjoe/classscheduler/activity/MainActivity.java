@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
 
     @Override
     public void success(int messageResId) {
-        Communication.success(getView().bottomNavigationMain, messageResId);
+        Communication.success(getView().bottomNavigationMain, messageResId, true);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements C
 
     @Override
     public void error(String message) {
-        Communication.error(getView().bottomNavigationMain, message);
+        Communication.error(getView().bottomNavigationMain, message, false);
     }
 
     public void showLoginBanner(){

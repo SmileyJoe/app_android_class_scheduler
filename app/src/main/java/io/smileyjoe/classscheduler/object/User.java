@@ -66,6 +66,15 @@ public class User {
         return false;
     }
 
+    public boolean removingAttendingId(Integer id){
+        if(isAttending(id)){
+            mAttendingIds.remove(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean isAttending(Integer id){
         return checkEvent(mAttendingIds, id);
     }
