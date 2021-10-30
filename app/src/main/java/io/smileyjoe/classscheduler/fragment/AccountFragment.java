@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.activity.LoginActivity;
+import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.object.User;
@@ -51,7 +52,7 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
-        User user = new User(snapshot);
+        User user = DbUser.parse(snapshot);
 
         if(getRoot() != null) {
             getRoot().textUsername.setContent(user.getUsername());
@@ -66,7 +67,7 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
 
     @Override
     protected DatabaseReference getDatabaseReference() {
-        return User.getDbReference();
+        return DbUser.getDbReference();
     }
 
     private void signOut(){

@@ -1,10 +1,13 @@
 package io.smileyjoe.classscheduler.activity;
 
 import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.Navigation;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -24,19 +27,27 @@ import android.widget.TextView;
 
 import com.google.android.material.transition.platform.MaterialContainerTransform;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Field;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.icons.Icon;
 
-public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> {
+public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> implements Communication.Listener {
 
     private static final String EXTRA_SCHEDULE = "schedule";
 
     private Schedule mSchedule;
+    private User mUser;
 
     public static Intent getIntent(Context context, Schedule schedule){
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -68,6 +79,14 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         setupToolbar();
         populate();
 
+        if(DbUser.isLoggedIn()) {
+            DbUser.getDbReference(user -> {
+                mUser = user;
+                handleRegisterButton();
+            });
+        } else {
+            getView().buttonWrapper.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -112,5 +131,41 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) getView().appBar.getLayoutParams();
         params.height = getResources().getDimensionPixelOffset(dimension);
         getView().appBar.setLayoutParams(params);
+    }
+
+    private void handleRegisterButton(){
+        if(mUser.isRegistered(mSchedule.getId())){
+            getView().buttonRegister.setText(R.string.text_unregister);
+            getView().buttonRegister.setOnClickListener(v -> DbUser.unregister(mUser, mSchedule.getId(), new UpdateComplete()));
+        } else {
+            getView().buttonRegister.setText(R.string.text_register);
+            getView().buttonRegister.setOnClickListener(v -> DbUser.register(mUser, mSchedule.getId(), new UpdateComplete()));
+        }
+    }
+
+    @Override
+    public void success(int messageResId) {
+        Communication.success(getView().getRoot(), messageResId);
+    }
+
+    @Override
+    public void error(int messageResId) {
+        Communication.success(getView().getRoot(), messageResId);
+    }
+
+    @Override
+    public void error(String message) {
+        Communication.success(getView().getRoot(), message);
+    }
+
+    private class UpdateComplete implements DatabaseReference.CompletionListener{
+        @Override
+        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+            if(error == null){
+                success(R.string.text_success);
+            } else {
+                error(R.string.error_generic);
+            }
+        }
     }
 }

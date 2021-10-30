@@ -25,9 +25,11 @@ import java.util.Collections;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.adapter.HeaderItemDecoration;
 import io.smileyjoe.classscheduler.adapter.ScheduleAdapter;
+import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentClassBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.ScheduleComparator;
+import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.LoadingLinearLayoutManager;
 
 public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> implements ValueEventListener, ScheduleAdapter.DataListener{
@@ -49,6 +51,10 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
         }
 
         setupView();
+
+        if(DbUser.isLoggedIn()) {
+            DbUser.getDbReference(user -> mAdapter.setUser(user));
+        }
     }
 
     private void setupView(){

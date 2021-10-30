@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.databinding.ListRowScheduleBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.LoadingData;
 import io.smileyjoe.icons.Icon;
 import io.smileyjoe.icons.view.IconImageView;
@@ -51,7 +54,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
                 .add(mView.textTime, 16);
     }
 
-    public void onBind(Schedule schedule){
+    public void onBind(Schedule schedule, User user){
         mLoadingData.update(schedule.isEmpty());
 
         if(!schedule.isEmpty()){
@@ -71,6 +74,31 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
                 mView.iconMain.setImageDrawable(null);
                 mView.iconMain.setVisibility(View.GONE);
             }
+
+            handleStatus(schedule, user);
+        }
+    }
+
+    public void handleStatus(Schedule schedule, User user){
+        @StringRes int statusTitle = 0;
+        @ColorRes int statusColor = 0;
+
+        if(user != null){
+            if(user.isAttending(schedule.getId())){
+                statusTitle = R.string.text_attending;
+                statusColor = R.color.colorPrimary;
+            } else if(user.isRegistered(schedule.getId())){
+                statusTitle = R.string.text_registered;
+                statusColor =  R.color.colorAccent;
+            }
+        }
+
+        if (statusTitle != 0 && statusColor != 0){
+            mView.textStatus.setText(statusTitle);
+            mView.textStatus.setTextColor(ContextCompat.getColor(mContext, statusColor));
+            mView.textStatus.setVisibility(View.VISIBLE);
+        } else {
+            mView.textStatus.setVisibility(View.GONE);
         }
     }
 

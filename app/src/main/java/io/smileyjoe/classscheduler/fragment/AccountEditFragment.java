@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountEditBinding;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
@@ -39,7 +40,7 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
-        mUser = new User(snapshot);
+        mUser = DbUser.parse(snapshot);
 
         if(getRoot() != null) {
             getRoot().inputUsername.getEditText().setText(mUser.getUsername());
@@ -54,13 +55,13 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
 
     @Override
     protected DatabaseReference getDatabaseReference() {
-        return User.getDbReference();
+        return DbUser.getDbReference();
     }
 
     private void save(){
         mUser.setUsername(getRoot().inputUsername.getEditText().getText().toString());
         mUser.setPhoneNumber(getRoot().inputPhoneNumber.getEditText().getText().toString());
-        mUser.save( this);
+        DbUser.updateProfile(mUser, this);
     }
 
     @Override

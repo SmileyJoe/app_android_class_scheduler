@@ -17,6 +17,7 @@ import io.smileyjoe.classscheduler.databinding.ListHeaderScheduleBinding;
 import io.smileyjoe.classscheduler.databinding.ListRowScheduleBinding;
 import io.smileyjoe.classscheduler.object.Day;
 import io.smileyjoe.classscheduler.object.Schedule;
+import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.viewholder.HeaderViewHolder;
 import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 
@@ -33,6 +34,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Listener mListener;
     private DataListener mDataListener;
     private boolean mIsLoading = false;
+    private User mUser;
 
     public ScheduleAdapter(Listener listener, DataListener dataListener) {
         mListener = listener;
@@ -47,6 +49,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 mDataListener.onLoadingChanged(loading);
             }
         }
+    }
+
+    public void setUser(User user) {
+        mUser = user;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -69,7 +76,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case TYPE_SCHEDULE:
             default:
-                ((ScheduleViewHolder) holder).onBind(getItem(position));
+                ((ScheduleViewHolder) holder).onBind(getItem(position), mUser);
                 break;
         }
     }
