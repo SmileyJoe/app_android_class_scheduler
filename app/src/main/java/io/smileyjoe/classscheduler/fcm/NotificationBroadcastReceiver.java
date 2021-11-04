@@ -1,6 +1,5 @@
 package io.smileyjoe.classscheduler.fcm;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -11,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import io.smileyjoe.classscheduler.R;
@@ -32,8 +32,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             mTitle = title;
         }
 
-        public Notification.Action build(Context context, PendingIntent pendingIntent){
-            return (new Notification.Action.Builder(mIcon, context.getString(mTitle), pendingIntent)).build();
+        public NotificationCompat.Action build(Context context, PendingIntent pendingIntent){
+            return (new NotificationCompat.Action.Builder(mIcon, context.getString(mTitle), pendingIntent)).build();
         }
     }
 
@@ -75,7 +75,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
      * @param context
      * @param notifyId
      */
-    public static void cancelNotification(Context context, int notifyId) {
+    private void cancelNotification(Context context, int notifyId) {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -104,7 +104,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         }
 
         if (cancelSummary) {
-            notificationManager.cancel(FcmService.Type.valueOf(group).getGroupId());
+            notificationManager.cancel(Notification.Type.valueOf(group).getGroupId());
         } else {
             notificationManager.cancel(notifyId);
         }
