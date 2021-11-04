@@ -10,7 +10,7 @@ public class Application extends android.app.Application {
         super.onCreate();
 
         Icon.setup(getApplicationContext());
-        Notification.setup(getApplicationContext());
+        Notification.Channel.createAll(getApplicationContext());
     }
 
 

@@ -57,16 +57,16 @@ public class Notification {
     }
 
     public enum Channel{
-        GENERAL(R.string.notification_channel_general_name, R.string.notification_channel_general_description, R.string.notification_channel_general_id);
+        GENERAL("channel_general", R.string.notification_channel_general_name, R.string.notification_channel_general_description);
 
+        private String mId;
         private @StringRes int mName;
         private @StringRes int mDescription;
-        private @StringRes int mId;
 
-        Channel(int name, int description, int id) {
+        Channel(String id, int name, int description) {
+            mId = id;
             mName = name;
             mDescription = description;
-            mId = id;
         }
 
         public String getName(Context context){
@@ -77,25 +77,25 @@ public class Notification {
             return context.getString(mDescription);
         }
 
-        public String getId(Context context){
-            return context.getString(mId);
+        public String getId(){
+            return mId;
         }
-    }
 
-    public static void setup(Context context){
-        for(Channel channel:Channel.values()){
-            createNotificationChannel(context, channel);
+        public void create(Context context){
+            CharSequence name = getName(context);
+            String description = getDescription(context);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = new NotificationChannel(getId(), name, importance);
+            notificationChannel.setDescription(description);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
         }
-    }
 
-    private static void createNotificationChannel(Context context, Channel channel) {
-        CharSequence name = channel.getName(context);
-        String description = channel.getDescription(context);
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel notificationChannel = new NotificationChannel(channel.getId(context), name, importance);
-        notificationChannel.setDescription(description);
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(notificationChannel);
+        public static void createAll(Context context){
+            for(Channel channel : values()){
+                channel.create(context);
+            }
+        }
     }
 
     public static class Builder{
@@ -152,7 +152,7 @@ public class Notification {
 
         public void show(){
             if (!TextUtils.isEmpty(mTitle) && !TextUtils.isEmpty(mBody) && mId >= 0) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, mType.getChannel().getId(mContext))
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, mType.getChannel().getId())
                         .setContentTitle(mTitle)
                         .setContentText(mBody)
                         .setSmallIcon(R.drawable.ic_notification)
@@ -173,7 +173,7 @@ public class Notification {
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
 
             NotificationCompat.Builder groupBuilder =
-                    new NotificationCompat.Builder(mContext, mType.getChannel().getId(mContext))
+                    new NotificationCompat.Builder(mContext, mType.getChannel().getId())
                             .setGroupSummary(true)
                             .setSmallIcon(R.drawable.ic_notification)
                             .setGroup(mType.name())

@@ -49,8 +49,7 @@
     <string name="success_attending">Thanks for letting us know, we will see you there.</string>
 
     <string name="notification_channel_general">General</string>
-    <string name="notification_channel_general_name">Name</string>
+    <string name="notification_channel_general_name">General</string>
     <string name="notification_channel_general_description">This is for general notifications</string>
-    <string name="notification_channel_general_id">channel_general</string>
     <string name="text_no">No</string>
 </resources>

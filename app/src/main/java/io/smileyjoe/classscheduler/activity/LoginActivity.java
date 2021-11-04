@@ -8,18 +8,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.List;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.ActivityLoginBinding;
 import io.smileyjoe.classscheduler.utils.Animation;
 import io.smileyjoe.classscheduler.utils.Animations;
@@ -85,9 +90,21 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            Utils.enableFCM();
-            setResult(RESULT_OK);
-            finish();
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String token = task.getResult();
+
+                            DbUser.newToken(token, (error, ref) -> {
+                                Utils.enableFCM();
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                        } else {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    });
         } else {
             if (response != null) {
                 Communication.error(getView().getRoot(), R.string.error_login, false);
