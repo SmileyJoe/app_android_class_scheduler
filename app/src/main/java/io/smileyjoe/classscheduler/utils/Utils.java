@@ -4,6 +4,9 @@ import android.os.Build;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.io.IOException;
 
 public class Utils {
 
@@ -54,6 +57,16 @@ public class Utils {
         }
 
         return authUi;
+    }
+
+    public static void enableFCM(){
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        FirebaseMessaging.getInstance().getToken();
+    }
+
+    public static void disableFCM(){
+        FirebaseMessaging.getInstance().setAutoInitEnabled(false);
+        FirebaseMessaging.getInstance().deleteToken();
     }
 
 }

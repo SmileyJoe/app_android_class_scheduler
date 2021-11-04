@@ -1,5 +1,6 @@
 package io.smileyjoe.classscheduler.database;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class DbUser {
     private static final String DB_KEY_PHONE_NUMBER = "phone_number";
     private static final String DB_KEY_ATTENDING_IDS = "attending";
     private static final String DB_KEY_REGISTERED_IDS = "registered";
+    private static final String DB_KEY_FCM_TOKEN = "fcm_token";
 
     public static User parse(DataSnapshot itemSnapshot){
         User user = new User();
@@ -43,6 +45,14 @@ public class DbUser {
 
     public static void updateProfile(User user, DatabaseReference.CompletionListener listener){
         Updater.getInstance().profile(user).update(listener);
+    }
+
+    public static void newToken(String token, DatabaseReference.CompletionListener listener){
+        if(TextUtils.isEmpty(token)) {
+            getDbReference().child(DB_KEY_FCM_TOKEN).removeValue();
+        } else {
+            Updater.getInstance().fcmToken(token).update(listener);
+        }
     }
 
     public static void unregister(User user, Integer id, DatabaseReference.CompletionListener listener){
@@ -106,6 +116,22 @@ public class DbUser {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
+    public static void getDbReferenceSingle(DataChangedListener listener){
+        getDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(listener != null){
+                    listener.onDataChange(parse(snapshot));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // do nothing //
+            }
+        });
+    }
+
     public static void getDbReference(DataChangedListener listener){
         getDbReference().addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,6 +175,11 @@ public class DbUser {
         public Updater profile(User user){
             mData.put(DB_KEY_USERNAME, user.getUsername());
             mData.put(DB_KEY_PHONE_NUMBER, user.getPhoneNumber());
+            return this;
+        }
+
+        public Updater fcmToken(String token){
+            mData.put(DB_KEY_FCM_TOKEN, token);
             return this;
         }
 

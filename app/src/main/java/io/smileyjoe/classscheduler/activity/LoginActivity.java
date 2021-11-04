@@ -85,6 +85,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
+            Utils.enableFCM();
             setResult(RESULT_OK);
             finish();
         } else {

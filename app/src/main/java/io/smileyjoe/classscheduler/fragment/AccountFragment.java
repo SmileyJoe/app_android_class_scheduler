@@ -71,6 +71,8 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
     }
 
     private void signOut(){
+        Utils.disableFCM();
+        DbUser.newToken(null, null);
         Utils.getAuth()
                 .signOut(getContext())
                 .addOnCompleteListener(task -> {
