@@ -18,8 +18,8 @@ public class User {
 
     private String mUsername;
     private String mPhoneNumber;
-    private ArrayList<Integer> mAttendingIds;
-    private ArrayList<Integer> mRegisteredIds;
+    private HashMap<String, Boolean> mAttendingIds;
+    private HashMap<String, Boolean> mRegisteredIds;
 
     public String getUsername() {
         return mUsername;
@@ -37,29 +37,30 @@ public class User {
         mPhoneNumber = phoneNumber;
     }
 
-    public ArrayList<Integer> getAttendingIds() {
+    public HashMap<String, Boolean> getAttendingIds() {
         return mAttendingIds;
     }
 
-    public void setAttendingIds(ArrayList<Integer> attendingIds) {
+    public void setAttendingIds(HashMap<String, Boolean> attendingIds) {
         mAttendingIds = attendingIds;
     }
 
-    public ArrayList<Integer> getRegisteredIds() {
+    public HashMap<String, Boolean> getRegisteredIds() {
         return mRegisteredIds;
     }
 
-    public void setRegisteredIds(ArrayList<Integer> registeredIds) {
+    public void setRegisteredIds(HashMap<String, Boolean> registeredIds) {
         mRegisteredIds = registeredIds;
     }
 
-    public boolean addAttendingId(Integer id){
+    public boolean addAttendingId(Integer idInt){
+        String id = Integer.toString(idInt);
         if(mAttendingIds == null){
-            mAttendingIds = new ArrayList<>();
-            mAttendingIds.add(id);
+            mAttendingIds = new HashMap<>();
+            mAttendingIds.put(id, true);
             return true;
-        } else if(!mAttendingIds.contains(id)) {
-            mAttendingIds.add(id);
+        } else if(!mAttendingIds.containsKey(id)) {
+            mAttendingIds.put(id, true);
             return true;
         }
 
@@ -68,7 +69,7 @@ public class User {
 
     public boolean removingAttendingId(Integer id){
         if(isAttending(id)){
-            mAttendingIds.remove(id);
+            mAttendingIds.remove(Integer.toString(id));
             return true;
         } else {
             return false;
@@ -79,13 +80,14 @@ public class User {
         return checkEvent(mAttendingIds, id);
     }
 
-    public boolean addRegisteredId(Integer id){
+    public boolean addRegisteredId(Integer idInt){
+        String id = Integer.toString(idInt);
         if(mRegisteredIds == null){
-            mRegisteredIds = new ArrayList<>();
-            mRegisteredIds.add(id);
+            mRegisteredIds = new HashMap<>();
+            mRegisteredIds.put(id, true);
             return true;
-        } else if(!mRegisteredIds.contains(id)) {
-            mRegisteredIds.add(id);
+        } else if(!mRegisteredIds.containsKey(id)) {
+            mRegisteredIds.put(id, true);
             return true;
         }
 
@@ -94,7 +96,7 @@ public class User {
 
     public boolean removeRegisteredId(Integer id){
         if(isRegistered(id)){
-            mRegisteredIds.remove(id);
+            mRegisteredIds.remove(Integer.toString(id));
             return true;
         } else {
             return false;
@@ -105,8 +107,9 @@ public class User {
         return checkEvent(mRegisteredIds, id);
     }
 
-    private boolean checkEvent(ArrayList<Integer> ids, Integer id){
-        if(ids != null && ids.contains(id)){
+    private boolean checkEvent(HashMap<String, Boolean> ids, Integer idInt){
+        String id = Integer.toString(idInt);
+        if(ids != null && ids.containsKey(id)){
             return true;
         } else {
             return false;

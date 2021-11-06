@@ -54,7 +54,7 @@ public class ClassFragment extends BaseFirebaseFragment<FragmentClassBinding> im
         setupView();
 
         if(DbUser.isLoggedIn()) {
-            DbUser.getDbReference(user -> mAdapter.setUser(user));
+            DbUser.getDbReference((DbUser.DataChangedListener<User>) user -> mAdapter.setUser(user));
         }
     }
 

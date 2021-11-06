@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
@@ -20,8 +21,8 @@ import io.smileyjoe.classscheduler.utils.Utils;
 
 public class DbUser {
 
-    public interface DataChangedListener{
-        void onDataChange(User user);
+    public interface DataChangedListener<T>{
+        void onDataChange(T item);
     }
 
     private static final String DB_NAME = "user";
@@ -36,11 +37,43 @@ public class DbUser {
         user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
         user.setPhoneNumber(itemSnapshot.child(DB_KEY_PHONE_NUMBER).getValue(String.class));
 
-        GenericTypeIndicator<ArrayList<Integer>> type = new GenericTypeIndicator<ArrayList<Integer>>(){};
-
-        user.setRegisteredIds(itemSnapshot.child(DB_KEY_REGISTERED_IDS).getValue(type));
-        user.setAttendingIds(itemSnapshot.child(DB_KEY_ATTENDING_IDS).getValue(type));
+        user.setRegisteredIds(getMapValue(itemSnapshot.child(DB_KEY_REGISTERED_IDS)));
+        user.setAttendingIds(getMapValue(itemSnapshot.child(DB_KEY_ATTENDING_IDS)));
         return user;
+    }
+
+    /**
+     * Firebase does it's own thing, if a hashmap has number keys, even if they are set
+     * as Strings, it will make it an array when it's parsed ... only on some conditions,
+     * so there is no way to garuntee that it will come back as a hashmap, or an array.
+     * <br/>
+     * This will try get it as a hashmap, as it should be, if an exception is thrown, it'll
+     * get it as an array, then cycle through and make a map
+     *
+     * @param snapshot current node
+     * @return a hashmap of the node
+     */
+    private static HashMap<String, Boolean> getMapValue(DataSnapshot snapshot){
+        GenericTypeIndicator<HashMap<String, Boolean>> typeMap = new GenericTypeIndicator<HashMap<String, Boolean>>(){};
+
+        try {
+            return snapshot.getValue(typeMap);
+        } catch (DatabaseException e){
+            GenericTypeIndicator<ArrayList<Boolean>> typeArray = new GenericTypeIndicator<ArrayList<Boolean>>(){};
+
+            ArrayList<Boolean> data = snapshot.getValue(typeArray);
+            HashMap<String, Boolean> map = new HashMap<>();
+
+            for(int i = 0; i < data.size(); i++){
+                Boolean value = data.get(i);
+
+                if(value != null){
+                    map.put(Integer.toString(i), value);
+                }
+            }
+
+            return map;
+        }
     }
 
     public static void updateProfile(User user, DatabaseReference.CompletionListener listener){
@@ -111,12 +144,34 @@ public class DbUser {
         }
     }
 
-    public static DatabaseReference getDbReference(){
-        return Utils.getDb().getReference(DB_NAME)
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    public static void getUsername(String userId, DataChangedListener<String> listener){
+        getDbReference(userId).child(DB_KEY_USERNAME).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(listener != null){
+                    listener.onDataChange(snapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if(listener != null){
+                    listener.onDataChange("Unknown");
+                }
+            }
+        });
     }
 
-    public static void getDbReferenceSingle(DataChangedListener listener){
+    public static DatabaseReference getDbReference(String userId){
+        return Utils.getDb().getReference(DB_NAME)
+                .child(userId);
+    }
+
+    public static DatabaseReference getDbReference(){
+        return getDbReference(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    }
+
+    public static void getDbReferenceSingle(DataChangedListener<User> listener){
         getDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -162,12 +217,12 @@ public class DbUser {
             return new Updater();
         }
 
-        public Updater registered(ArrayList<Integer> ids){
+        public Updater registered(HashMap<String, Boolean> ids){
             mData.put(DB_KEY_REGISTERED_IDS, ids);
             return this;
         }
 
-        public Updater attending(ArrayList<Integer> ids){
+        public Updater attending(HashMap<String, Boolean> ids){
             mData.put(DB_KEY_ATTENDING_IDS, ids);
             return this;
         }

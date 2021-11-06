@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Field;
 
 import io.smileyjoe.classscheduler.R;
+import io.smileyjoe.classscheduler.database.DbSchedule;
 import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
@@ -43,12 +44,25 @@ import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.icons.Icon;
 
-public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> implements Communication.Listener {
+public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> implements Communication.Listener, ValueEventListener {
 
     private static final String EXTRA_SCHEDULE = "schedule";
 
     private Schedule mSchedule;
     private User mUser;
+    private ValueEventListener mUserChanged = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            mUser = DbUser.parse(snapshot);
+            handleRegisterButton();
+            handleAttendingButton();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
 
     public static Intent getIntent(Context context, Schedule schedule){
         Intent intent = new Intent(context, ClassDetailsActivity.class);
@@ -79,16 +93,27 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         handleExtras();
         setupToolbar();
         populate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         if(DbUser.isLoggedIn()) {
-            DbUser.getDbReference(user -> {
-                mUser = user;
-                handleRegisterButton();
-                handleAttendingButton();
-            });
+            DbUser.getDbReference().addValueEventListener(mUserChanged);
         } else {
             getView().buttonWrapper.setVisibility(View.GONE);
         }
+
+        DbSchedule.getDbReference(mSchedule.getId()).addValueEventListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        DbUser.getDbReference().removeEventListener(mUserChanged);
+        DbSchedule.getDbReference(mSchedule.getId()).removeEventListener(this);
     }
 
     @Override
@@ -127,6 +152,15 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         getView().detailTime.setContent(mSchedule.getTimeFormatted(getBaseContext()));
         getView().detailDetails.setContent(mSchedule.getDetails());
         getView().detailDay.setContent(mSchedule.getDay().getTitle(getBaseContext()));
+
+        //TODO: This and other listeners need to be removed ... this shouldn't be added here
+        if(mSchedule.getRegisteredUsers() != null){
+            for (String userId : mSchedule.getRegisteredUsers().keySet()) {
+                DbUser.getUsername(userId, (DbUser.DataChangedListener<String>) username -> {
+                    Log.d("UserThings", "Username: " + username);
+                });
+            }
+        }
     }
 
     private void setAppBarHeight(@DimenRes int dimension){
@@ -153,6 +187,17 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
             getView().buttonAttending.setText(R.string.text_attend);
             getView().buttonAttending.setOnClickListener(v -> DbUser.attend(mUser, mSchedule.getId(), new UpdateComplete(R.string.success_attending)));
         }
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        mSchedule = DbSchedule.parse(snapshot);
+        populate();
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
     }
 
     @Override
