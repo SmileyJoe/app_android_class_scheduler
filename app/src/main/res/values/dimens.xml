@@ -10,6 +10,7 @@
     <dimen name="profile_icon_toolbar_padding_top">@dimen/profile_icon_toolbar_padding_bottom</dimen>
 
     <dimen name="icon_size_schedule_list">50dp</dimen>
+    <dimen name="icon_size_view_icon_title">50dp</dimen>
     <dimen name="class_details_toolbar_height">300dp</dimen>
     <dimen name="class_details_toolbar_small_height">150dp</dimen>
     <dimen name="class_details_icon_size">150dp</dimen>

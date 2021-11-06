@@ -34,11 +34,19 @@ public class DbUser {
 
     public static User parse(DataSnapshot itemSnapshot){
         User user = new User();
+        user.setId(itemSnapshot.getKey());
         user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
         user.setPhoneNumber(itemSnapshot.child(DB_KEY_PHONE_NUMBER).getValue(String.class));
 
         user.setRegisteredIds(getMapValue(itemSnapshot.child(DB_KEY_REGISTERED_IDS)));
         user.setAttendingIds(getMapValue(itemSnapshot.child(DB_KEY_ATTENDING_IDS)));
+        return user;
+    }
+
+    public static User parseRelation(DataSnapshot itemSnapshot){
+        User user = new User();
+        user.setId(itemSnapshot.getKey());
+        user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
         return user;
     }
 

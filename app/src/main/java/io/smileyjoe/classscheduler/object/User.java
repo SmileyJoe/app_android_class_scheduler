@@ -1,5 +1,7 @@
 package io.smileyjoe.classscheduler.object;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,12 +16,21 @@ import java.util.HashMap;
 
 import io.smileyjoe.classscheduler.utils.Utils;
 
-public class User {
+public class User implements Parcelable {
 
+    private String mId;
     private String mUsername;
     private String mPhoneNumber;
     private HashMap<String, Boolean> mAttendingIds;
     private HashMap<String, Boolean> mRegisteredIds;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
 
     public String getUsername() {
         return mUsername;
@@ -116,10 +127,48 @@ public class User {
         }
     }
 
+    public User() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mId);
+        dest.writeString(this.mUsername);
+        dest.writeString(this.mPhoneNumber);
+        dest.writeSerializable(this.mAttendingIds);
+        dest.writeSerializable(this.mRegisteredIds);
+    }
+
+    protected User(Parcel in) {
+        this.mId = in.readString();
+        this.mUsername = in.readString();
+        this.mPhoneNumber = in.readString();
+        this.mAttendingIds = (HashMap<String, Boolean>) in.readSerializable();
+        this.mRegisteredIds = (HashMap<String, Boolean>) in.readSerializable();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     @Override
     public String toString() {
         return "User{" +
-                "mUsername='" + mUsername + '\'' +
+                "mId='" + mId + '\'' +
+                ", mUsername='" + mUsername + '\'' +
                 ", mPhoneNumber='" + mPhoneNumber + '\'' +
                 ", mAttendingIds=" + mAttendingIds +
                 ", mRegisteredIds=" + mRegisteredIds +

@@ -11,6 +11,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="materialButtonStyle">@style/Button</item>
         <item name="textInputStyle">@style/TextInput</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.Primary">
@@ -29,6 +30,19 @@
 
     <style name="AppTheme.InvisibleToolbar.DayNight">
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/BottomSheet.Appearance</item>
+    </style>
+
+    <style name="BottomSheet.Appearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
     </style>
 
     <style name="Padding.Default" parent="">

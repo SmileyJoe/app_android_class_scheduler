@@ -39,6 +39,7 @@ import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.database.DbSchedule;
 import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.ActivityClassDetailsBinding;
+import io.smileyjoe.classscheduler.dialog.ScheduleUserBottomSheet;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
@@ -50,6 +51,8 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
 
     private Schedule mSchedule;
     private User mUser;
+    private ScheduleUserBottomSheet mSheetAttending;
+    private ScheduleUserBottomSheet mSheetRegistered;
     private ValueEventListener mUserChanged = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +95,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         super.onCreate(savedInstanceState);
         handleExtras();
         setupToolbar();
+        setupViews();
         populate();
     }
 
@@ -112,7 +116,9 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
     protected void onPause() {
         super.onPause();
 
-        DbUser.getDbReference().removeEventListener(mUserChanged);
+        if(DbUser.isLoggedIn()) {
+            DbUser.getDbReference().removeEventListener(mUserChanged);
+        }
         DbSchedule.getDbReference(mSchedule.getId()).removeEventListener(this);
     }
 
@@ -127,6 +133,26 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         getView().toolbarCollapsing.setCollapsedTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorOnPrimary));
+    }
+
+    private void setupViews(){
+        mSheetAttending = new ScheduleUserBottomSheet(mSchedule.getId(), ScheduleUserBottomSheet.Type.ATTENDING);
+        mSheetRegistered = new ScheduleUserBottomSheet(mSchedule.getId(), ScheduleUserBottomSheet.Type.REGISTERED);
+
+        getView().imageAttending.setOnClickListener(view -> {
+            if(mSchedule.getAttendingUsers().size() > 0) {
+                mSheetAttending.show(getSupportFragmentManager(), ScheduleUserBottomSheet.Type.ATTENDING.name());
+            } else {
+                error(R.string.error_no_attending_users);
+            }
+        });
+        getView().imageRegistered.setOnClickListener(view -> {
+            if(mSchedule.getAttendingUsers().size() > 0) {
+                mSheetRegistered.show(getSupportFragmentManager(), ScheduleUserBottomSheet.Type.REGISTERED.name());
+            } else {
+                error(R.string.error_no_registered_users);
+            }
+        });
     }
 
     private void handleExtras(){
@@ -153,14 +179,8 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         getView().detailDetails.setContent(mSchedule.getDetails());
         getView().detailDay.setContent(mSchedule.getDay().getTitle(getBaseContext()));
 
-        //TODO: This and other listeners need to be removed ... this shouldn't be added here
-        if(mSchedule.getRegisteredUsers() != null){
-            for (String userId : mSchedule.getRegisteredUsers().keySet()) {
-                DbUser.getUsername(userId, (DbUser.DataChangedListener<String>) username -> {
-                    Log.d("UserThings", "Username: " + username);
-                });
-            }
-        }
+        getView().imageAttending.setTitle(getView().imageAttending.getTitleDefault() + String.format(" (%d)", mSchedule.getAttendingUsers().size()));
+        getView().imageRegistered.setTitle(getView().imageRegistered.getTitleDefault() + String.format(" (%d)", mSchedule.getRegisteredUsers().size()));
     }
 
     private void setAppBarHeight(@DimenRes int dimension){

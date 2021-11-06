@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import io.smileyjoe.classscheduler.R;
@@ -25,8 +26,8 @@ public class Schedule implements Parcelable {
     private boolean mIsHeader;
     private String mIconName;
     private boolean mIsEmpty;
-    private HashMap<String, Boolean> mAttendingUsers;
-    private HashMap<String, Boolean> mRegisteredUsers;
+    private ArrayList<User> mAttendingUsers;
+    private ArrayList<User> mRegisteredUsers;
 
     public Schedule(){
         setEmpty(true);
@@ -82,11 +83,11 @@ public class Schedule implements Parcelable {
         return mIsEmpty;
     }
 
-    public HashMap<String, Boolean> getAttendingUsers() {
+    public ArrayList<User> getAttendingUsers() {
         return mAttendingUsers;
     }
 
-    public HashMap<String, Boolean> getRegisteredUsers() {
+    public ArrayList<User> getRegisteredUsers() {
         return mRegisteredUsers;
     }
 
@@ -134,11 +135,11 @@ public class Schedule implements Parcelable {
         mIsEmpty = empty;
     }
 
-    public void setAttendingUsers(HashMap<String, Boolean> attendingUsers) {
+    public void setAttendingUsers(ArrayList<User> attendingUsers) {
         mAttendingUsers = attendingUsers;
     }
 
-    public void setRegisteredUsers(HashMap<String, Boolean> registeredUsers) {
+    public void setRegisteredUsers(ArrayList<User> registeredUsers) {
         mRegisteredUsers = registeredUsers;
     }
 
@@ -177,8 +178,8 @@ public class Schedule implements Parcelable {
         dest.writeByte(this.mIsHeader ? (byte) 1 : (byte) 0);
         dest.writeString(this.mIconName);
         dest.writeByte(this.mIsEmpty ? (byte) 1 : (byte) 0);
-        dest.writeSerializable(this.mAttendingUsers);
-        dest.writeSerializable(this.mRegisteredUsers);
+        dest.writeTypedList(this.mAttendingUsers);
+        dest.writeTypedList(this.mRegisteredUsers);
     }
 
     protected Schedule(Parcel in) {
@@ -193,8 +194,8 @@ public class Schedule implements Parcelable {
         this.mIsHeader = in.readByte() != 0;
         this.mIconName = in.readString();
         this.mIsEmpty = in.readByte() != 0;
-        this.mAttendingUsers = (HashMap<String, Boolean>) in.readSerializable();
-        this.mRegisteredUsers = (HashMap<String, Boolean>) in.readSerializable();
+        this.mAttendingUsers = in.createTypedArrayList(User.CREATOR);
+        this.mRegisteredUsers = in.createTypedArrayList(User.CREATOR);
     }
 
     public static final Creator<Schedule> CREATOR = new Creator<Schedule>() {
