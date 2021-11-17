@@ -23,6 +23,7 @@ public class User implements Parcelable {
     private String mPhoneNumber;
     private HashMap<String, Boolean> mAttendingIds;
     private HashMap<String, Boolean> mRegisteredIds;
+    private boolean mHasProfileImage;
 
     public String getId() {
         return mId;
@@ -125,6 +126,17 @@ public class User implements Parcelable {
         } else {
             return false;
         }
+    }
+
+    public boolean hasProfileImage() {
+        return mHasProfileImage;
+    }
+
+    public void setHasProfileImage(Boolean hasProfileImage) {
+        if(hasProfileImage == null){
+            hasProfileImage = false;
+        }
+        mHasProfileImage = hasProfileImage;
     }
 
     public User() {

@@ -22,15 +22,18 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,11 +43,13 @@ import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountEditBinding;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
+import io.smileyjoe.classscheduler.utils.StorageUtil;
 
 public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEditBinding> implements DatabaseReference.CompletionListener {
 
     private User mUser;
     private ActivityResultLauncher<CropImageContractOptions> mCropLauncher;
+    private Uri mUriProfile = null;
 
     @Override
     protected FragmentAccountEditBinding inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState) {
@@ -57,6 +62,7 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
 
         setupActivityResults();
         getRoot().buttonSave.setOnClickListener(v -> save());
+
         getRoot().imageProfile.setOnClickListener(v -> {
             CropImageContractOptions options = new CropImageContractOptions(null, new CropImageOptions())
                     .setScaleType(CropImageView.ScaleType.CENTER)
@@ -82,9 +88,10 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
                 new CropImageContract(),
                 result -> {
                     if (result.isSuccessful()) {
+                        mUriProfile = result.getUriContent();
                         getRoot().imageProfile.setScaleType(ImageView.ScaleType.CENTER);
                         getRoot().imageProfile.setImageTintList(null);
-                        getRoot().imageProfile.setImageURI(result.getUriContent());
+                        getRoot().imageProfile.setImageURI(mUriProfile);
                     } else {
                         error(R.string.error_image_select);
                     }
@@ -99,6 +106,7 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
         if(getRoot() != null) {
             getRoot().inputUsername.getEditText().setText(mUser.getUsername());
             getRoot().inputPhoneNumber.getEditText().setText(mUser.getPhoneNumber());
+            getRoot().imageProfile.load(mUser);
         }
     }
 
@@ -113,9 +121,18 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
     }
 
     private void save(){
+        removeDataListener();
         mUser.setUsername(getRoot().inputUsername.getEditText().getText().toString());
         mUser.setPhoneNumber(getRoot().inputPhoneNumber.getEditText().getText().toString());
-        DbUser.updateProfile(mUser, this);
+
+        if(mUriProfile != null){
+            StorageUtil.uploadProfileImage(mUriProfile, taskSnapshot -> {
+                mUser.setHasProfileImage(true);
+                DbUser.updateProfile(mUser, this);
+            });
+        } else {
+            DbUser.updateProfile(mUser, this);
+        }
     }
 
     @Override

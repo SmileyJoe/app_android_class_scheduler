@@ -22,6 +22,7 @@ import io.smileyjoe.classscheduler.utils.Utils;
 public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragment implements ValueEventListener, Communication.Listener {
 
     private T mView;
+    private DatabaseReference mDatabaseReference;
 
     protected abstract T inflate(LayoutInflater inflater, ViewGroup container, boolean savedInstanceState);
     protected abstract DatabaseReference getDatabaseReference();
@@ -38,12 +39,18 @@ public abstract class BaseFirebaseFragment<T extends ViewBinding> extends Fragme
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getDatabaseReference().addValueEventListener(this);
+        mDatabaseReference = getDatabaseReference();
+        mDatabaseReference.addValueEventListener(this);
+    }
+
+    protected void removeDataListener(){
+        mDatabaseReference.removeEventListener(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        removeDataListener();
         mView = null;
     }
 

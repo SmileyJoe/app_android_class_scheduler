@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +31,7 @@ import io.smileyjoe.classscheduler.database.DbUser;
 import io.smileyjoe.classscheduler.databinding.FragmentAccountBinding;
 import io.smileyjoe.classscheduler.object.About;
 import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.StorageUtil;
 import io.smileyjoe.classscheduler.utils.Utils;
 
 public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding> {
@@ -57,6 +60,7 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
         if(getRoot() != null) {
             getRoot().textUsername.setContent(user.getUsername());
             getRoot().textPhoneNumber.setContent(user.getPhoneNumber());
+            getRoot().imageProfile.load(user);
         }
     }
 

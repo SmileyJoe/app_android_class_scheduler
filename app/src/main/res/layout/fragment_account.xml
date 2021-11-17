@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     style="@style/Padding.Default">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <io.smileyjoe.classscheduler.view.ProfileImage
         android:id="@+id/image_profile"
         app:layout_constraintBottom_toTopOf="@+id/text_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_account"
+        app:profile_image_type="view"
         style="@style/Icon.Profile.Account"/>
 
     <io.smileyjoe.classscheduler.view.DetailTextView

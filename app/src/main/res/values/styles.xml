@@ -166,14 +166,24 @@
         <item name="icon_color">@color/colorOnPrimary</item>
     </style>
 
-    <style name="Icon.Profile.Account" parent="">
-        <item name="android:layout_width">150dp</item>
-        <item name="android:layout_height">150dp</item>
+    <style name="Icon.Profile" parent="">
         <item name="android:background">@drawable/bg_circle_drawable</item>
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="contentPadding">10dp</item>
         <item name="tint">@color/colorPrimary</item>
         <item name="shapeAppearanceOverlay">@style/circleImageView</item>
+    </style>
+
+    <style name="Icon.Profile.Account">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+    </style>
+
+    <style name="Icon.Profile.BottomSheet">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tint">@color/colorOnPrimary</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
     </style>
 
     <style name="Icon.Schedule.List" parent="Icon">

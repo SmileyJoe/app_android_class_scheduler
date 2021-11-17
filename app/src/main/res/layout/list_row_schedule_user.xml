@@ -6,6 +6,12 @@
     android:layout_height="wrap_content"
     style="@style/Padding.Default">
 
+    <io.smileyjoe.classscheduler.view.ProfileImage
+        android:id="@+id/image_profile"
+        app:profile_image_type="view"
+        style="@style/Icon.Profile.BottomSheet"
+        android:layout_alignParentLeft="true" />
+
     <TextView
         android:id="@+id/text_is_attending"
         android:layout_width="wrap_content"
@@ -14,6 +20,7 @@
         android:visibility="gone"
         android:textStyle="italic"
         android:textColor="@color/colorPrimary"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         style="@style/Text.Caption" />
 
@@ -21,7 +28,10 @@
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/padding_horizontal_default"
+        android:layout_marginRight="@dimen/padding_horizontal_default"
+        android:layout_toRightOf="@id/image_profile"
         android:layout_toLeftOf="@id/text_is_attending"
         style="@style/Text.Body" />
 

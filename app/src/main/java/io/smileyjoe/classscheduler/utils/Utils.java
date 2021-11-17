@@ -5,6 +5,7 @@ import android.os.Build;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.IOException;
 
@@ -13,6 +14,7 @@ public class Utils {
     private static final String FIREBASE_EMU_HOST = "10.0.2.2";
     private static final int FIREBASE_EMU_AUTH_HOST = 9099;
     private static final int FIREBASE_EMU_DB_HOST = 9000;
+    private static final int FIREBASE_EMU_STORAGE_HOST = 9199;
 
     /**
      * Taken from:
@@ -57,6 +59,16 @@ public class Utils {
         }
 
         return authUi;
+    }
+
+    public static FirebaseStorage getFirebaseStorage(){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        if(Utils.isEmulator()) {
+            storage.useEmulator(FIREBASE_EMU_HOST, FIREBASE_EMU_STORAGE_HOST);
+        }
+
+        return storage;
     }
 
     public static void enableFCM(){

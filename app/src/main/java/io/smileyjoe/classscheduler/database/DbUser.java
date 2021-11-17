@@ -31,12 +31,14 @@ public class DbUser {
     private static final String DB_KEY_ATTENDING_IDS = "attending";
     private static final String DB_KEY_REGISTERED_IDS = "registered";
     private static final String DB_KEY_FCM_TOKEN = "fcm_token";
+    private static final String DB_KEY_HAS_PROFILE_IMAGE = "has_profile_image";
 
     public static User parse(DataSnapshot itemSnapshot){
         User user = new User();
         user.setId(itemSnapshot.getKey());
         user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
         user.setPhoneNumber(itemSnapshot.child(DB_KEY_PHONE_NUMBER).getValue(String.class));
+        user.setHasProfileImage(itemSnapshot.child(DB_KEY_HAS_PROFILE_IMAGE).getValue(Boolean.class));
 
         user.setRegisteredIds(getMapValue(itemSnapshot.child(DB_KEY_REGISTERED_IDS)));
         user.setAttendingIds(getMapValue(itemSnapshot.child(DB_KEY_ATTENDING_IDS)));
@@ -47,6 +49,7 @@ public class DbUser {
         User user = new User();
         user.setId(itemSnapshot.getKey());
         user.setUsername(itemSnapshot.child(DB_KEY_USERNAME).getValue(String.class));
+        user.setHasProfileImage(itemSnapshot.child(DB_KEY_HAS_PROFILE_IMAGE).getValue(Boolean.class));
         return user;
     }
 
@@ -238,6 +241,7 @@ public class DbUser {
         public Updater profile(User user){
             mData.put(DB_KEY_USERNAME, user.getUsername());
             mData.put(DB_KEY_PHONE_NUMBER, user.getPhoneNumber());
+            mData.put(DB_KEY_HAS_PROFILE_IMAGE, user.hasProfileImage());
             return this;
         }
 

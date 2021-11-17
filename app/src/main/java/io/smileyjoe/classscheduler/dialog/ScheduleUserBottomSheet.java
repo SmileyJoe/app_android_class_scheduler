@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -37,6 +39,7 @@ import io.smileyjoe.classscheduler.databinding.ListRowScheduleUserBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.LoadingData;
+import io.smileyjoe.classscheduler.utils.StorageUtil;
 import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 
 public class ScheduleUserBottomSheet extends BottomSheetDialogFragment implements ValueEventListener {
@@ -181,6 +184,8 @@ public class ScheduleUserBottomSheet extends BottomSheetDialogFragment implement
                         mView.textIsAttending.setVisibility(View.GONE);
                         break;
                 }
+
+                mView.imageProfile.load(user);
             }
         }
     }
