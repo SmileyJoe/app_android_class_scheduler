@@ -14,6 +14,21 @@
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog</item>
     </style>
 
+    <style name="AppTheme.CropActivity" parent="Theme.MaterialComponents.DayNight">
+        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="actionMenuTextColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="actionBarStyle">@style/AppTheme.CropActivity.ActionBar</item>
+    </style>
+
+    <style name="AppTheme.CropActivity.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+         <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="background">?android:colorBackground</item>
+        <item name="titleTextStyle">@style/Toolbar.Title.Invisible</item>
+    </style>
+
     <style name="AppTheme.Primary">
         <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorOnPrimary</item>

@@ -54,4 +54,6 @@
     <string name="text_no">No</string>
     <string name="error_no_attending_users">There are no users attending this class</string>
     <string name="error_no_registered_users">There are no registered users for this class</string>
+    <string name="menu_profile_image">Profile Image</string>
+    <string name="error_image_select">Something went wrong, please select the image again</string>
 </resources>
