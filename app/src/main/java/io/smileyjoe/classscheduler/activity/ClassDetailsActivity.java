@@ -43,6 +43,7 @@ import io.smileyjoe.classscheduler.dialog.ScheduleUserBottomSheet;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
+import io.smileyjoe.classscheduler.utils.ViewUtils;
 import io.smileyjoe.icons.Icon;
 
 public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> implements Communication.Listener, ValueEventListener {
@@ -106,7 +107,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         if(DbUser.isLoggedIn()) {
             DbUser.getDbReference().addValueEventListener(mUserChanged);
         } else {
-            getView().buttonWrapper.setVisibility(View.GONE);
+            ViewUtils.requiresLogin(getView().buttonWrapper, getView().imageAttending, getView().imageRegistered);
         }
 
         DbSchedule.getDbReference(mSchedule.getId()).addValueEventListener(this);
