@@ -44,7 +44,9 @@ import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.User;
 import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.classscheduler.utils.ViewUtils;
+import io.smileyjoe.classscheduler.view.IconTitleView;
 import io.smileyjoe.icons.Icon;
+import io.smileyjoe.icons.view.IconTextView;
 
 public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBinding> implements Communication.Listener, ValueEventListener {
 
@@ -52,8 +54,7 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
 
     private Schedule mSchedule;
     private User mUser;
-    private ScheduleUserBottomSheet mSheetAttending;
-    private ScheduleUserBottomSheet mSheetRegistered;
+    private ScheduleUserBottomSheet mScheduleUserBottomSheet;
     private ValueEventListener mUserChanged = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -137,23 +138,33 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
     }
 
     private void setupViews(){
-        mSheetAttending = new ScheduleUserBottomSheet(mSchedule.getId(), ScheduleUserBottomSheet.Type.ATTENDING);
-        mSheetRegistered = new ScheduleUserBottomSheet(mSchedule.getId(), ScheduleUserBottomSheet.Type.REGISTERED);
+        mScheduleUserBottomSheet = new ScheduleUserBottomSheet(mSchedule.getId());
+    }
 
-        getView().imageAttending.setOnClickListener(view -> {
-            if(mSchedule.getAttendingUsers().size() > 0) {
-                mSheetAttending.show(getSupportFragmentManager(), ScheduleUserBottomSheet.Type.ATTENDING.name());
+    private void setupAttendingRegistered(IconTitleView view, ScheduleUserBottomSheet.Type type){
+        int userCountTemp = 0;
+
+        switch (type){
+            case REGISTERED:
+                userCountTemp = mSchedule.getRegisteredUsers().size();
+                break;
+            case ATTENDING:
+                userCountTemp = mSchedule.getAttendingUsers().size();
+                break;
+        }
+
+        // this is to make it final for the lambda //
+        int userCount = userCountTemp;
+
+        view.setOnClickListener(v -> {
+            if(userCount > 0) {
+                mScheduleUserBottomSheet.show(getSupportFragmentManager(), type);
             } else {
-                error(R.string.error_no_attending_users);
+                error(type.getErrorNoUsers());
             }
         });
-        getView().imageRegistered.setOnClickListener(view -> {
-            if(mSchedule.getAttendingUsers().size() > 0) {
-                mSheetRegistered.show(getSupportFragmentManager(), ScheduleUserBottomSheet.Type.REGISTERED.name());
-            } else {
-                error(R.string.error_no_registered_users);
-            }
-        });
+
+        view.setTitle(view.getTitleDefault() + String.format(" (%d)", userCount));
     }
 
     private void handleExtras(){
@@ -180,8 +191,8 @@ public class ClassDetailsActivity extends BaseActivity<ActivityClassDetailsBindi
         getView().detailDetails.setContent(mSchedule.getDetails());
         getView().detailDay.setContent(mSchedule.getDay().getTitle(getBaseContext()));
 
-        getView().imageAttending.setTitle(getView().imageAttending.getTitleDefault() + String.format(" (%d)", mSchedule.getAttendingUsers().size()));
-        getView().imageRegistered.setTitle(getView().imageRegistered.getTitleDefault() + String.format(" (%d)", mSchedule.getRegisteredUsers().size()));
+        setupAttendingRegistered(getView().imageAttending, ScheduleUserBottomSheet.Type.ATTENDING);
+        setupAttendingRegistered(getView().imageRegistered, ScheduleUserBottomSheet.Type.REGISTERED);
     }
 
     private void setAppBarHeight(@DimenRes int dimension){

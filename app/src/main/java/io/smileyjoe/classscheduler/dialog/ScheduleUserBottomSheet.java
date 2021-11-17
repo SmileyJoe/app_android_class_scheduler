@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import io.smileyjoe.classscheduler.databinding.ListRowScheduleBinding;
 import io.smileyjoe.classscheduler.databinding.ListRowScheduleUserBinding;
 import io.smileyjoe.classscheduler.object.Schedule;
 import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.classscheduler.utils.LoadingData;
 import io.smileyjoe.classscheduler.utils.StorageUtil;
 import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
@@ -45,17 +47,23 @@ import io.smileyjoe.classscheduler.viewholder.ScheduleViewHolder;
 public class ScheduleUserBottomSheet extends BottomSheetDialogFragment implements ValueEventListener {
 
     public enum Type{
-        ATTENDING(R.string.text_attending),
-        REGISTERED(R.string.text_registered);
+        ATTENDING(R.string.text_attending, R.string.error_no_attending_users),
+        REGISTERED(R.string.text_registered, R.string.error_no_registered_users);
 
         private @StringRes int mTitle;
+        private @StringRes int mErrorNoUsers;
 
-        Type(int title) {
+        Type(int title, int errorNoUsers) {
             mTitle = title;
+            mErrorNoUsers = errorNoUsers;
         }
 
         public int getTitle() {
             return mTitle;
+        }
+
+        public int getErrorNoUsers() {
+            return mErrorNoUsers;
         }
     }
 
@@ -65,9 +73,8 @@ public class ScheduleUserBottomSheet extends BottomSheetDialogFragment implement
     private Type mType;
     private Adapter mAdapter;
 
-    public ScheduleUserBottomSheet(int scheduleId, Type type) {
+    public ScheduleUserBottomSheet(int scheduleId) {
         mScheduleId = scheduleId;
-        mType = type;
     }
 
     @Nullable
@@ -102,6 +109,11 @@ public class ScheduleUserBottomSheet extends BottomSheetDialogFragment implement
     @Override
     public void onCancelled(@NonNull DatabaseError error) {
 
+    }
+
+    public void show(@NonNull FragmentManager manager, ScheduleUserBottomSheet.Type type) {
+        mType = type;
+        show(manager, type.name());
     }
 
     private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
