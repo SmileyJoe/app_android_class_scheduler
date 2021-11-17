@@ -19,4 +19,5 @@
     <dimen name="class_details_icon_margin_bottom">40dp</dimen>
     <dimen name="class_details_toolbar_spacer_height">120dp</dimen>
     <dimen name="divider_height">2dp</dimen>
+    <dimen name="padding_text_icon">5dp</dimen>
 </resources>

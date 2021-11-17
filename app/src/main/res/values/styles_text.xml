@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text.Body" parent="TextAppearance.MaterialComponents.Body1"/>
+
+    <style name="Text.Title" parent="TextAppearance.MaterialComponents.Headline5">
+    </style>
+
+    <style name="Text.Heading" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text.Dialog" parent="TextAppearance.MaterialComponents.Body1"/>
+
+    <style name="Text.Heading.Underline">
+        <item name="android:layout_marginBottom">@dimen/padding_vertical_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:background">@drawable/bg_bottom_line</item>
+    </style>
+
+    <style name="Text.Heading.Contrast">
+        <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+    <style name="Text.Caption" parent="TextAppearance.MaterialComponents.Body2"/>
+
+    <style name="Text.Body.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+    </style>
+
+    <style name="Text.Title.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+    </style>
+
+    <style name="Text.Heading.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+    </style>
+
+    <style name="Text.Caption.Icon">
+        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
+        <item name="icon_color">@color/icon</item>
+    </style>
+</resources>

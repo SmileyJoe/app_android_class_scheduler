@@ -64,7 +64,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="@dimen/class_details_icon_size"
                         android:layout_height="@dimen/class_details_icon_size"
-                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
                         app:cardElevation="@dimen/class_details_icon_elevation"
                         app:layout_anchorGravity="bottom|center_horizontal"
                         android:layout_alignParentBottom="true"

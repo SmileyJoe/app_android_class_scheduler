@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationStyle</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="android:textColorSecondary">@color/colorOnPrimary</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="materialButtonStyle">@style/Button</item>
+        <item name="textInputStyle">@style/TextInput</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog</item>
+    </style>
+
+    <style name="AppTheme.CropActivity" parent="Theme.MaterialComponents.DayNight">
+        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="actionMenuTextColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="actionBarStyle">@style/AppTheme.CropActivity.ActionBar</item>
+    </style>
+
+    <style name="AppTheme.Primary">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="colorAccent">@color/colorOnPrimary</item>
+        <item name="materialButtonStyle">@style/Button.Inverse</item>
+    </style>
+
+    <style name="AppTheme.InvisibleToolbar">
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="toolbarStyle">@style/Toolbar.Invisible</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout.Invisible</item>
+    </style>
+
+    <style name="AppTheme.InvisibleToolbar.DayNight">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- toolbarStyle -->
+    <style name="Toolbar.Invisible" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/Toolbar.Title.Invisible</item>
+    </style>
+
+    <!-- appBarLayoutStyle -->
+    <style name="AppTheme.AppBarLayout.Invisible" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="elevation">0dp</item>
+        <item name="android:background">?android:colorBackground</item>
+    </style>
+
+    <!-- actionBarStyle -->
+    <style name="AppTheme.CropActivity.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="background">?android:colorBackground</item>
+        <item name="titleTextStyle">@style/Toolbar.Title.Invisible</item>
+    </style>
+
+    <!-- titleTextStyle -->
+    <style name="Toolbar.Title.Invisible" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- bottomNavigationStyle -->
+    <style name="AppTheme.BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- materialButtonStyle -->
+    <style name="Button" parent="Widget.MaterialComponents.Button"></style>
+
+    <style name="Button.Inverse" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colorOnPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- textInputStyle -->
+    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"></style>
+
+    <!-- bottomSheetDialogTheme -->
+    <style name="AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/BottomSheet.Appearance</item>
+    </style>
+
+    <style name="BottomSheet.Appearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+</resources>

@@ -1,75 +1,10 @@
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-<!--        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>-->
-        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationStyle</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:textColorSecondary">@color/colorOnPrimary</item>
-        <item name="android:windowActivityTransitions">true</item>
-        <item name="materialButtonStyle">@style/Button</item>
-        <item name="textInputStyle">@style/TextInput</item>
-        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheetDialog</item>
-    </style>
-
-    <style name="AppTheme.CropActivity" parent="Theme.MaterialComponents.DayNight">
-        <item name="titleTextColor">@color/colorPrimary</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="actionMenuTextColor">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/colorPrimary</item>
-        <item name="actionBarStyle">@style/AppTheme.CropActivity.ActionBar</item>
-    </style>
-
-    <style name="AppTheme.CropActivity.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-         <item name="android:elevation">0dp</item>
-        <item name="elevation">0dp</item>
-        <item name="background">?android:colorBackground</item>
-        <item name="titleTextStyle">@style/Toolbar.Title.Invisible</item>
-    </style>
-
-    <style name="AppTheme.Primary">
-        <item name="android:colorBackground">@color/colorPrimary</item>
-        <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="colorAccent">@color/colorOnPrimary</item>
-        <item name="materialButtonStyle">@style/Button.Inverse</item>
-    </style>
-
-    <style name="AppTheme.InvisibleToolbar">
-        <item name="android:statusBarColor">?android:colorBackground</item>
-        <item name="toolbarStyle">@style/Toolbar.Invisible</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="appBarLayoutStyle">@style/AppTheme.AppBarLayout.Invisible</item>
-    </style>
-
-    <style name="AppTheme.InvisibleToolbar.DayNight">
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-
-    <style name="AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
-    </style>
-
-    <style name="BottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="shapeAppearance">@style/BottomSheet.Appearance</item>
-    </style>
-
-    <style name="BottomSheet.Appearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">24dp</item>
-    </style>
 
     <style name="Padding.Default" parent="">
         <item name="android:paddingTop">@dimen/padding_vertical_default</item>
         <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
         <item name="android:paddingLeft">@dimen/padding_horizontal_default</item>
         <item name="android:paddingRight">@dimen/padding_horizontal_default</item>
-    </style>
-
-    <style name="Banner" parent="Padding.Default">
-        <item name="cardElevation">10dp</item>
-
     </style>
 
     <style name="Margin.Default" parent="">
@@ -79,133 +14,18 @@
         <item name="android:layout_marginRight">@dimen/padding_horizontal_default</item>
     </style>
 
-    <style name="Button" parent="Widget.MaterialComponents.Button"></style>
-
-    <style name="Button.Inverse" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/colorOnPrimary</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+    <style name="Banner" parent="Padding.Default">
+        <item name="cardElevation">10dp</item>
     </style>
 
     <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog"/>
-
-    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"></style>
-
-    <style name="Toolbar.Invisible" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="titleTextAppearance">@style/Toolbar.Title.Invisible</item>
-    </style>
-
-    <style name="Toolbar.Title.Invisible" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <!--Any text styling can be done here-->
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppTheme.BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="elevation">0dp</item>
-    </style>
-
-    <style name="AppTheme.AppBarLayout.Invisible" parent="Widget.MaterialComponents.AppBarLayout.Primary">
-        <item name="elevation">0dp</item>
-        <item name="android:background">?android:colorBackground</item>
-    </style>
-
-    <style name="Text.Body" parent="TextAppearance.MaterialComponents.Body1"/>
-
-    <style name="Text.Title" parent="TextAppearance.MaterialComponents.Headline5">
-    </style>
-
-    <style name="Text.Heading" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="Text.Dialog" parent="TextAppearance.MaterialComponents.Body1"/>
-
-    <style name="Text.Heading.Underline">
-        <item name="android:layout_marginBottom">@dimen/padding_vertical_default</item>
-        <item name="android:paddingBottom">@dimen/padding_vertical_default</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
-        <item name="android:background">@drawable/bg_bottom_line</item>
-    </style>
-
-    <style name="Text.Heading.Contrast">
-        <item name="android:textColor">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="Text.Caption" parent="TextAppearance.MaterialComponents.Body2"/>
-
-    <style name="Text.Body.Icon">
-        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
-        <item name="icon_color">@color/icon</item>
-    </style>
-
-    <style name="Text.Title.Icon">
-        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
-        <item name="icon_color">@color/icon</item>
-    </style>
-
-    <style name="Text.Heading.Icon">
-        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
-        <item name="icon_color">@color/icon</item>
-    </style>
-
-    <style name="Text.Caption.Icon">
-        <item name="android:drawablePadding">@dimen/padding_text_icon</item>
-        <item name="icon_color">@color/icon</item>
-    </style>
 
     <style name="ListItem" parent="@style/Padding.Default">
         <item name="android:background">@drawable/ripple_primary</item>
     </style>
 
-    <style name="Icon">
-        <item name="icon_color">@color/icon</item>
-        <item name="icon_placeholder">@drawable/anim_loader_circular</item>
-    </style>
-
-    <style name="Icon.Contrast">
-        <item name="icon_color">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="Icon.Profile" parent="">
-        <item name="android:background">@drawable/bg_circle_drawable</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
-        <item name="contentPadding">10dp</item>
-        <item name="tint">@color/colorPrimary</item>
-        <item name="shapeAppearanceOverlay">@style/circleImageView</item>
-    </style>
-
-    <style name="Icon.Profile.Account">
-        <item name="android:layout_width">150dp</item>
-        <item name="android:layout_height">150dp</item>
-    </style>
-
-    <style name="Icon.Profile.BottomSheet">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="tint">@color/colorOnPrimary</item>
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-    </style>
-
-    <style name="Icon.Schedule.List" parent="Icon">
-        <item name="android:layout_width">@dimen/icon_size_schedule_list</item>
-        <item name="android:layout_height">@dimen/icon_size_schedule_list</item>
-        <item name="android:layout_marginRight">@dimen/padding_horizontal_default</item>
-    </style>
-
-    <style name="collapsedTitleTextAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="circleImageView">
+    <style name="ShapeAppearance.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-
-<!--    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->
-<!--        <item name="android:background">?android:colorBackground</item>-->
-<!--        <item name="titleTextColor">@color/colorPrimary</item>-->
-<!--        <item name="titleCentered">true</item>-->
-<!--    </style>-->
-
-    <dimen name="padding_text_icon">5dp</dimen>
 </resources>
