@@ -2,15 +2,18 @@
 <resources>
     <dimen name="padding_horizontal_default">16dp</dimen>
     <dimen name="padding_vertical_default">8dp</dimen>
-    <dimen name="profile_icon_toolbar_width">40dp</dimen>
-    <dimen name="profile_icon_toolbar_height">@dimen/profile_icon_toolbar_width</dimen>
-    <dimen name="profile_icon_toolbar_margin_left">16dp</dimen>
-    <dimen name="profile_icon_toolbar_margin_right">@dimen/profile_icon_toolbar_margin_left</dimen>
-    <dimen name="profile_icon_toolbar_padding_bottom">8dp</dimen>
-    <dimen name="profile_icon_toolbar_padding_top">@dimen/profile_icon_toolbar_padding_bottom</dimen>
 
     <dimen name="icon_size_schedule_list">50dp</dimen>
     <dimen name="icon_size_view_icon_title">50dp</dimen>
+    <dimen name="icon_size_login">300dp</dimen>
+
+    <dimen name="profile_image_size_account">150dp</dimen>
+    <dimen name="profile_image_size_bottom_sheet">40dp</dimen>
+
+    <dimen name="elevation_banner">10dp</dimen>
+
+    <dimen name="corner_bottom_sheet">24dp</dimen>
+
     <dimen name="class_details_toolbar_height">300dp</dimen>
     <dimen name="class_details_toolbar_small_height">150dp</dimen>
     <dimen name="class_details_icon_size">150dp</dimen>
@@ -18,6 +21,7 @@
     <dimen name="class_details_icon_elevation">5dp</dimen>
     <dimen name="class_details_icon_margin_bottom">40dp</dimen>
     <dimen name="class_details_toolbar_spacer_height">120dp</dimen>
+    <dimen name="class_details_scrim_height_trigger">180dp</dimen>
     <dimen name="divider_height">2dp</dimen>
     <dimen name="padding_text_icon">5dp</dimen>
 </resources>

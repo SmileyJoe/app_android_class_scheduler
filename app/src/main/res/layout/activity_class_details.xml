@@ -50,7 +50,7 @@
                 app:expandedTitleTextAppearance="@style/Text.Heading.Contrast"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/colorPrimary"
-                app:scrimVisibleHeightTrigger="180dp"
+                app:scrimVisibleHeightTrigger="@dimen/class_details_scrim_height_trigger"
                 app:scrimAnimationDuration="300"
                 app:expandedTitleGravity="center|top"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">

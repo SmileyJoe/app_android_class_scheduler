@@ -91,6 +91,6 @@
 
     <style name="BottomSheet.Appearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">24dp</item>
+        <item name="cornerSize">@dimen/corner_bottom_sheet</item>
     </style>
 </resources>

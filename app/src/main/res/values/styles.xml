@@ -15,7 +15,7 @@
     </style>
 
     <style name="Banner" parent="Padding.Default">
-        <item name="cardElevation">10dp</item>
+        <item name="cardElevation">@dimen/elevation_banner</item>
     </style>
 
     <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog"/>
