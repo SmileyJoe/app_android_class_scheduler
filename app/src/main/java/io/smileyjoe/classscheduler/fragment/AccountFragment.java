@@ -51,6 +51,7 @@ public class AccountFragment extends BaseFirebaseFragment<FragmentAccountBinding
 
         getRoot().buttonSignOut.setOnClickListener(v -> signOut());
         getRoot().buttonEdit.setOnClickListener(v -> Navigation.findNavController(getRoot().getRoot()).navigate(R.id.action_account_to_edit));
+        getRoot().imageProfile.setCommunicationListener(this);
     }
 
     @Override

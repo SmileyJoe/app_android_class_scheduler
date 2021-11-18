@@ -14,6 +14,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import io.smileyjoe.classscheduler.R;
 import io.smileyjoe.classscheduler.object.User;
+import io.smileyjoe.classscheduler.utils.Communication;
 import io.smileyjoe.classscheduler.utils.StorageUtil;
 
 public class ProfileImage extends ShapeableImageView {
@@ -52,6 +53,7 @@ public class ProfileImage extends ShapeableImageView {
     private Type mType;
     private ColorStateList mTint;
     private ScaleType mScaleType;
+    private Communication.Listener mCommunicationListener;
 
     public ProfileImage(Context context) {
         super(context);
@@ -87,6 +89,10 @@ public class ProfileImage extends ShapeableImageView {
         mType = type;
     }
 
+    public void setCommunicationListener(Communication.Listener communicationListener) {
+        mCommunicationListener = communicationListener;
+    }
+
     private void showDefault(){
         setImageResource(mType.getIcon());
         setScaleType(mScaleType);
@@ -95,12 +101,16 @@ public class ProfileImage extends ShapeableImageView {
 
     public void load(User user){
         if(user.hasProfileImage()){
-            StorageUtil.getProfileImage(user.getId(), uri -> {
-                setScaleType(ImageView.ScaleType.CENTER);
-                setImageTintList(null);
-                Glide.with(getContext())
-                        .load(uri)
-                        .into(this);
+            StorageUtil.getProfileImage(user.getId(), (success, uri, e) -> {
+                if(success) {
+                    setScaleType(ImageView.ScaleType.CENTER);
+                    setImageTintList(null);
+                    Glide.with(getContext())
+                            .load(uri)
+                            .into(this);
+                } else {
+                    Communication.error(mCommunicationListener, R.string.error_no_profile_image);
+                }
             });
         } else {
             showDefault();

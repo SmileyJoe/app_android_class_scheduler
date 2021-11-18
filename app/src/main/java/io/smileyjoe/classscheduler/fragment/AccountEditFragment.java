@@ -63,6 +63,7 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
         setupActivityResults();
         getRoot().buttonSave.setOnClickListener(v -> save());
 
+        getRoot().imageProfile.setCommunicationListener(this);
         getRoot().imageProfile.setOnClickListener(v -> {
             CropImageContractOptions options = new CropImageContractOptions(null, new CropImageOptions())
                     .setScaleType(CropImageView.ScaleType.CENTER)
@@ -126,9 +127,13 @@ public class AccountEditFragment extends BaseFirebaseFragment<FragmentAccountEdi
         mUser.setPhoneNumber(getRoot().inputPhoneNumber.getEditText().getText().toString());
 
         if(mUriProfile != null){
-            StorageUtil.uploadProfileImage(mUriProfile, taskSnapshot -> {
-                mUser.setHasProfileImage(true);
-                DbUser.updateProfile(mUser, this);
+            StorageUtil.uploadProfileImage(mUriProfile, (success, e) -> {
+                if(success) {
+                    mUser.setHasProfileImage(true);
+                    DbUser.updateProfile(mUser, this);
+                } else {
+                    error(R.string.error_account_update);
+                }
             });
         } else {
             DbUser.updateProfile(mUser, this);

@@ -44,4 +44,22 @@ public class Communication {
         snackbar.setAction(R.string.ok, v -> snackbar.dismiss());
         snackbar.show();
     }
+
+    public static void success(Listener listener, @StringRes int messageResId){
+        if(listener != null){
+            listener.success(messageResId);
+        }
+    }
+
+    public static void error(Listener listener, @StringRes int messageResId){
+        if(listener != null){
+            listener.error(messageResId);
+        }
+    }
+
+    public static void error(Listener listener, String message){
+        if(listener != null){
+            listener.error(message);
+        }
+    }
 }
